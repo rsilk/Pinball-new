@@ -9,6 +9,8 @@ from hardware.Events import EventTypes
 
 from game.modes.AttractMode import AttractMode
 from game.modes.TestDisplayMode import TestDisplayMode
+from game.modes.Lanes import Lanes
+
 from game.switches import SWITCHES
 from game.lights import LIGHTS
 
@@ -32,7 +34,9 @@ class GameMain:
             self.lights[light.name] = light
         
         self.players = []
-        self.modes = [AttractMode(self, 0), TestDisplayMode(self, 0)]
+        self.modes = [AttractMode(self, 0),
+                      TestDisplayMode(self, 0),
+                      Lanes(self, 10)]
     
     def go(self):
         while not self.done:

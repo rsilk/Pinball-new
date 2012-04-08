@@ -37,8 +37,8 @@ class TestDisplayMode(Mode):
         elif event.TYPE == EventTypes.MOUSE_UP:
             if self.switch_clicked:
                 print "released %s" % self.switch_clicked.name
-                self.switch_clicked = None
                 self.game.events.inject(SwitchOpenEvent(self.switch_clicked))
+                self.switch_clicked = None
     
     def frame(self, delta):
         game_upper_display = self.game.display.upper
