@@ -68,13 +68,13 @@ class Light:
 
 LIGHTS = [
     # cabinet lights
-    Light('start', 200, 10, 0, 7, None, None),
+    Light('start', 29, 69, 0, 7, None, None),
     
     # lower PF
-    Light('outlaneL', 200, 30, 2, 0, 1, 2),
-    Light('inlaneL', 200, 40, 2, 3, 4, 5),
-    Light('slingshotL', 200, 50, 3, 0, 1, 2),
-    Light('slingshotR', 200, 60, 3, 3, 4, 5),
-    Light('inlaneR', 200, 70, 4, 0, 1, 2),
-    Light('outlaneR', 200, 80, 4, 3, 4, 5),
+    Light('outlaneL', 275, 21, 2, 0, 1, 2),
+    Light('inlaneL', 279, 44, 2, 3, 4, 5),
+    Light('slingshotL', 203, 83, 3, 0, 1, 2),
+    Light('slingshotR', 202, 234, 3, 3, 4, 5),
+    Light('inlaneR', 278, 271, 4, 0, 1, 2),
+    Light('outlaneR', 276, 294, 4, 3, 4, 5),
     ]

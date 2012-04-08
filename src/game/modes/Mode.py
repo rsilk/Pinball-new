@@ -3,13 +3,15 @@ Created on 2012-02-19
 
 @author: ryan
 '''
+import time
 from hardware.Events import EventTypes
 
 class Mode:
     def __init__(self, game, prio):
         self.game = game
         self.prio = 0 # higher priorities will get processed first
-        self.handled_switches = {}
+        self.handled_switches = {} # swname: (event, handler)
+        self.delayed = []
     
     def event(self, event):
         # return True if this event has been handled with a terminal handler
@@ -33,3 +35,16 @@ class Mode:
         elif event == 'open':
             event = EventTypes.SWITCH_OPEN
         self.handled_switches[switch_name] = (event, handler)
+    
+    def delay(self, name, delay, handler, *args):
+        delayed_time = time.time() + delay
+        self.delayed.append((delayed_time, name, handler, args))
+    
+    def handleDelayed(self, now):
+        next_delayed = []
+        for (delayed_time, name, handler, args) in self.delayed:
+            if delayed_time <= now:
+                handler(*args)
+            else:
+                next_delayed.append((delayed_time, name, handler, args))
+        self.delayed = next_delayed

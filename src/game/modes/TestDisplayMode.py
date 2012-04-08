@@ -16,7 +16,10 @@ class TestDisplayMode(Mode):
         self.switch_clicked = None
         
         upper_display = self.game.display.upper
+        self.pf_image = pygame.image.load(self.game.datapath('playfield_sideways.png'))
         self.surface = pygame.Surface((upper_display.width, upper_display.height))
+        self.surface.blit(self.pf_image, (0,0))
+        
         for switch in self.game.switches.values():
             surf = ui.fonts.TEST_DISPLAY_FONT.render(switch.name, True, (255,255,255))
             self.surface.blit(surf, (switch.x, switch.y))
@@ -39,6 +42,7 @@ class TestDisplayMode(Mode):
                 print "released %s" % self.switch_clicked.name
                 self.game.events.inject(SwitchOpenEvent(self.switch_clicked))
                 self.switch_clicked = None
+            
     
     def frame(self, delta):
         game_upper_display = self.game.display.upper
@@ -49,4 +53,4 @@ class TestDisplayMode(Mode):
         game_upper_display.blit(fps_surf, (950,10))
         
         for light in self.game.lights.itervalues():
-            pygame.draw.rect(game_upper_display.surface, (light.r, light.g, light.b), (light.x-12, light.y+1, 10, 10))
+            pygame.draw.circle(game_upper_display.surface, (light.r, light.g, light.b), (light.x, light.y), 6)

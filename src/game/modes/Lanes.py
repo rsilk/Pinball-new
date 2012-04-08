@@ -31,6 +31,8 @@ class Lanes(Mode):
     def switchClosed(self, switch):
         index = self.switches.index(switch.name)
         self.states[index] = True
+        
+        self.game.player().score += 100
         if all(self.states):
             self.complete()
         else:
@@ -49,6 +51,7 @@ class Lanes(Mode):
         self._updateLights()
     
     def complete(self):
+        self.game.player().score += 1000
         self.states = [False] * len(self.switches)
         self._updateLights()
         

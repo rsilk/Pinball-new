@@ -12,6 +12,7 @@ class EventTypes:
     MOUSE_UP = 2
     SWITCH_CLOSED = 3
     SWITCH_OPEN = 4
+    MOUSE_MOVE = 5
 
 class QuitEvent:
     TYPE = EventTypes.QUIT
@@ -24,6 +25,12 @@ class MouseDownEvent:
 
 class MouseUpEvent:
     TYPE = EventTypes.MOUSE_UP
+    
+    def __init__(self, pos):
+        self.pos = pos
+
+class MouseMoveEvent:
+    TYPE = EventTypes.MOUSE_MOVE
     
     def __init__(self, pos):
         self.pos = pos
@@ -57,6 +64,8 @@ class Events:
                 events.append(MouseDownEvent(event.pos))
             elif event.type == MOUSEBUTTONUP:
                 events.append(MouseUpEvent(event.pos))
+            elif event.type == MOUSEMOTION:
+                events.append(MouseMoveEvent(event.pos))
         return events
     
     def getHardwareEvents(self):

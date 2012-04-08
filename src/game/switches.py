@@ -14,26 +14,26 @@ class Switch:
         
 SWITCHES = [
     # cabinet switches
-    Switch('menu', 10, 10, 0, 0),
-    Switch('exit', 10, 20, 0, 1),
-    Switch('up', 10, 30, 0, 2),
-    Switch('down', 10, 40, 0, 3),
-    Switch('start', 10, 50, 0, 4),
-    Switch('flipL', 10, 60, 0, 5),
-    Switch('flipR', 10, 70, 0, 6),
+    Switch('menu', 750, 10, 0, 0),
+    Switch('exit', 750, 20, 0, 1),
+    Switch('up', 750, 30, 0, 2),
+    Switch('down', 750, 40, 0, 3),
+    Switch('start', 750, 50, 0, 4),
+    Switch('flipL', 750, 60, 0, 5),
+    Switch('flipR', 750, 70, 0, 6),
     
     # trough switches
-    Switch('outhole', 10, 90, 1, 0),
-    Switch('trough1', 10, 100, 1, 1),
-    Switch('trough2', 10, 110, 1, 2),
-    Switch('trough3', 10, 120, 1, 3),
-    Switch('shooter', 10, 130, 1, 4),
+    Switch('outhole', 750, 90, 1, 0),
+    Switch('trough1', 750, 100, 1, 1),
+    Switch('trough2', 750, 110, 1, 2),
+    Switch('trough3', 750, 120, 1, 3),
+    Switch('shooter', 750, 130, 1, 4),
     
     # lower playfield
-    Switch('outlaneL', 10, 150, 1, 5),
-    Switch('inlaneL', 10, 160, 1, 6),
-    Switch('slingshotL', 10, 170, 1, 7),
-    Switch('slingshotR', 10, 180, 1, 8),
-    Switch('inlaneR', 10, 190, 1, 9),
-    Switch('outlaneR', 10, 200, 1, 10),
+    Switch('outlaneL', 750, 150, 1, 5),
+    Switch('inlaneL', 750, 160, 1, 6),
+    Switch('slingshotL', 750, 170, 1, 7),
+    Switch('slingshotR', 750, 180, 1, 8),
+    Switch('inlaneR', 750, 190, 1, 9),
+    Switch('outlaneR', 750, 200, 1, 10),
 ]
