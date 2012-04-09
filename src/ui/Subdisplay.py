@@ -18,7 +18,7 @@ class Subdisplay:
     
     def clear(self):
         self.surface.fill((0,0,0))
-        pygame.draw.rect(self.surface, (255,255,255), self.border_rect, 1)
     
     def blit(self, *args, **kwargs):
+#        pygame.draw.rect(self.surface, (255,255,255), self.border_rect, 1)
         return self.surface.blit(*args, **kwargs)

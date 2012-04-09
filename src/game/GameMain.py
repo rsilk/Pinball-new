@@ -45,8 +45,8 @@ class GameMain:
         for driver in DRIVERS:
             self.drivers[driver.name] = driver
         
-        self.players = [Player('Player 1')]
-        self.current_player = self.players[0]
+        self.players = []
+        self.current_player = None
         
         self.modes = [AttractMode(self, 0),
                       TestDisplayMode(self, 0),
@@ -93,3 +93,11 @@ class GameMain:
         
         self.compositor.frame(delta)
         self.display.endFrame()
+    
+    def addPlayer(self):
+        player = Player('Player 1')
+        self.players.append(player)
+    
+    def startGame(self):
+        self.addPlayer()
+        self.current_player = self.players[0]
