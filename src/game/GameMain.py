@@ -68,6 +68,12 @@ class GameMain:
     
     def tick(self):
         for event in self.events.getEvents():
+            # update switch state
+            if event.TYPE == EventTypes.SWITCH_CLOSED:
+                event.switch.active = True
+            elif event.TYPE == EventTypes.SWITCH_OPEN:
+                event.switch.active = False
+                
             if event.TYPE == EventTypes.QUIT:
                 self.done = True
             else:

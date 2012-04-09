@@ -11,6 +11,7 @@ class Switch:
         self.y = y
         self.device = device
         self.offset = offset
+        self.active = False
         
 SWITCHES = [
     # cabinet switches

@@ -45,6 +45,7 @@ class TestDisplayMode(Mode):
                 self.game.events.inject(SwitchOpenEvent(self.switch_clicked))
                 self.switch_clicked = None
             
+            
     
     def frame(self, delta):
         game_upper_display = self.game.display.upper
@@ -60,3 +61,7 @@ class TestDisplayMode(Mode):
         for driver in self.game.drivers.itervalues():
             if driver.active:
                 pygame.draw.circle(game_upper_display.surface, (255,0,0), (driver.x-6, driver.y+6), 6)
+        
+        for switch in self.game.switches.itervalues():
+            if switch.active:
+                pygame.draw.circle(game_upper_display.surface, (255,0,0), (switch.x-6, switch.y+6), 6)

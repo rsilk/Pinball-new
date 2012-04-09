@@ -25,10 +25,11 @@ class AttractMode(Mode):
         self.start_layer.move(350, 350)
         
         infile = open(__file__, 'r')
-        code_lines = [line.strip('\n') for line in infile.readlines()]
+        code_lines = ['test']
+#        code_lines = [line.strip('\n') for line in infile.readlines()]
         infile.close()
         code_surf = renderLines(SMALL_FONT, code_lines, False, (45,45,45))
-        self.code_layer = MotionEffect(DisplayLayer([code_surf]), 0, -25)
+        self.code_layer = DisplayLayer([code_surf])
         
         self.layer = GroupedLayer([self.code_layer, self.packet_layer, self.storm_layer])
         
