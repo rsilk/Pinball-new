@@ -36,7 +36,7 @@ class TestDisplayMode(Mode):
         if event.TYPE == EventTypes.MOUSE_DOWN:
             # check to see if a switch label was clicked
             for switch in self.game.switches.values():
-                sw_rect = pygame.Rect(switch.x, switch.y, 30, 10)
+                sw_rect = pygame.Rect(switch.x, switch.y, 50, 10)
                 if sw_rect.collidepoint(event.pos):
                     self.switch_clicked = switch
                     self.game.events.inject(SwitchClosedEvent(switch))

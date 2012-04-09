@@ -37,4 +37,9 @@ SWITCHES = [
     Switch('slingshotR', 750, 180, 1, 8),
     Switch('inlaneR', 750, 190, 1, 9),
     Switch('outlaneR', 750, 200, 1, 10),
+    
+    # pops
+    Switch('pop1', 750, 220, 1, 11),
+    Switch('pop2', 750, 230, 1, 12),
+    Switch('pop3', 750, 240, 1, 13),
 ]

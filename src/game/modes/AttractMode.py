@@ -21,8 +21,8 @@ class AttractMode(Mode):
         self.storm_layer = TextLayer(TITLE_FONT, 'STORM', (255,255,255))
         self.storm_layer.move(475, 205)
         
-        self.start_layer = TextLayer(BIG_FONT, 'PRESS START', (255,255,255))
-        self.start_layer.move(350, 350)
+        self.start_layer = TextLayer(BIG_FONT, 'PRESS START', (255,255,255), align='center')
+        self.start_layer.move(1024/2, 350)
         
         infile = open(__file__, 'r')
         code_lines = ['test']

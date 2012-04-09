@@ -10,7 +10,7 @@ pygame.font.init()
 
 TITLE_FONT = pygame.font.SysFont('Upheaval Pro', 100)
 BIG_FONT = pygame.font.SysFont('Upheaval Pro', 48)
-SMALL_FONT = pygame.font.SysFont('Joystix', 14)
+SMALL_FONT = pygame.font.SysFont('Upheaval Pro', 25)
 TEST_DISPLAY_FONT = pygame.font.SysFont('Arial', 12)
 
 def renderLines(font, lines, antialias, color, background=None):

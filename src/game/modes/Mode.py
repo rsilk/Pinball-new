@@ -6,10 +6,10 @@ Created on 2012-02-19
 import time
 from hardware.Events import EventTypes
 
-class Mode:
+class Mode(object):
     def __init__(self, game, prio):
         self.game = game
-        self.prio = 0 # higher priorities will get processed first
+        self.prio = prio # higher priorities will get processed first
         self.handled_switches = [] # (swname, event, handler)
         self.delayed = []
         self.layer = None

@@ -5,6 +5,7 @@ Created on 2012-02-18
 '''
 import time
 import os.path
+import operator
 
 from hardware.Events import EventTypes
 from ui.Compositor import Compositor
@@ -14,6 +15,7 @@ from game.modes.TestDisplayMode import TestDisplayMode
 from game.modes.Lanes import Lanes
 from game.modes.Flippers import Flippers
 from game.modes.Bumpers import Bumpers
+from game.modes.ScoreDisplay import ScoreDisplay
 
 from game.Player import Player
 from game.switches import SWITCHES
@@ -50,9 +52,11 @@ class GameMain:
         
         self.modes = [AttractMode(self, 0),
                       TestDisplayMode(self, 0),
+                      ScoreDisplay(self, 1),
                       Flippers(self, 5),
                       Bumpers(self, 5),
-                      Lanes(self, 10)]
+                      Lanes(self, 10),
+                      ]
     
     def go(self):
         while not self.done:
@@ -86,7 +90,6 @@ class GameMain:
         
         self.display.beginFrame()
         
-        
         for mode in self.modes[:]: # copy in case modes get added
             mode.handleDelayed(now)
             mode.frame(delta)
@@ -96,6 +99,9 @@ class GameMain:
         
         for driver in self.drivers.itervalues():
             driver.tick(delta)
+        
+        # reorder modes by priority
+        self.modes = sorted(self.modes, key=operator.attrgetter('prio'), reverse=True)
         
         self.compositor.frame(delta)
         self.display.endFrame()
