@@ -7,19 +7,24 @@ import time
 import os.path
 
 from hardware.Events import EventTypes
+from ui.Compositor import Compositor
 
 from game.modes.AttractMode import AttractMode
 from game.modes.TestDisplayMode import TestDisplayMode
 from game.modes.Lanes import Lanes
+from game.modes.Flippers import Flippers
+from game.modes.Bumpers import Bumpers
 
 from game.Player import Player
 from game.switches import SWITCHES
 from game.lights import LIGHTS
+from game.drivers import DRIVERS
 
 class GameMain:
     
     def __init__(self, display, events):
         self.display = display
+        self.compositor = Compositor(self, self.display.dmd)
         self.events = events
         self.last_tick_at = time.time()
         
@@ -35,10 +40,18 @@ class GameMain:
         for light in LIGHTS:
             self.lights[light.name] = light
         
+        # initialize drivers
+        self.drivers = {}
+        for driver in DRIVERS:
+            self.drivers[driver.name] = driver
+        
         self.players = [Player('Player 1')]
         self.current_player = self.players[0]
+        
         self.modes = [AttractMode(self, 0),
                       TestDisplayMode(self, 0),
+                      Flippers(self, 5),
+                      Bumpers(self, 5),
                       Lanes(self, 10)]
     
     def go(self):
@@ -67,11 +80,16 @@ class GameMain:
         
         self.display.beginFrame()
         
-        for light in self.lights.itervalues():
-            light.tick(delta)
         
         for mode in self.modes[:]: # copy in case modes get added
             mode.handleDelayed(now)
             mode.frame(delta)
         
+        for light in self.lights.itervalues():
+            light.tick(delta)
+        
+        for driver in self.drivers.itervalues():
+            driver.tick(delta)
+        
+        self.compositor.frame(delta)
         self.display.endFrame()

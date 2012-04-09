@@ -27,6 +27,10 @@ class TestDisplayMode(Mode):
         for light in self.game.lights.values():
             surf = ui.fonts.TEST_DISPLAY_FONT.render(light.name, True, (255,255,255))
             self.surface.blit(surf, (light.x, light.y))
+        
+        for driver in self.game.drivers.values():
+            surf = ui.fonts.TEST_DISPLAY_FONT.render(driver.name, True, (255,255,255))
+            self.surface.blit(surf, (driver.x, driver.y))
     
     def event(self, event):
         if event.TYPE == EventTypes.MOUSE_DOWN:
@@ -34,12 +38,10 @@ class TestDisplayMode(Mode):
             for switch in self.game.switches.values():
                 sw_rect = pygame.Rect(switch.x, switch.y, 30, 10)
                 if sw_rect.collidepoint(event.pos):
-                    print "clicked %s" % switch.name
                     self.switch_clicked = switch
                     self.game.events.inject(SwitchClosedEvent(switch))
         elif event.TYPE == EventTypes.MOUSE_UP:
             if self.switch_clicked:
-                print "released %s" % self.switch_clicked.name
                 self.game.events.inject(SwitchOpenEvent(self.switch_clicked))
                 self.switch_clicked = None
             
@@ -54,3 +56,7 @@ class TestDisplayMode(Mode):
         
         for light in self.game.lights.itervalues():
             pygame.draw.circle(game_upper_display.surface, (light.r, light.g, light.b), (light.x, light.y), 6)
+
+        for driver in self.game.drivers.itervalues():
+            if driver.active:
+                pygame.draw.circle(game_upper_display.surface, (255,0,0), (driver.x-6, driver.y+6), 6)

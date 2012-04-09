@@ -18,6 +18,7 @@ class Display:
         self.screen = pygame.display.set_mode((self.W, self.H))
         self.dmd = Subdisplay(self.screen, 1024, 384, 0, 384)
         self.upper = Subdisplay(self.screen, 1024, 384, 0, 0)
+        
 
     def go(self):
         pass

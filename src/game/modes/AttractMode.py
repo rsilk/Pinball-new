@@ -4,30 +4,22 @@ Created on 2012-02-19
 @author: ryan
 '''
 import time
-import ui.fonts
-from .Mode import Mode
+from ui.fonts import *
+from ui.layers import *
+from game.modes.Mode import Mode
 
 class AttractMode(Mode):
     
     def __init__(self, *args):
         Mode.__init__(self, *args)
         
-        self.time_since_last_switch = 0
+        self.game.lights['start'].blink(500, 255,0,0)
         
-        self.foo = False
+        self.packet_layer = MotionEffect(FadeEffect(TextLayer(TITLE_FONT, 'PACKET', (255,0,0)), 0, 50), 100, 0)
+        self.packet_layer.move(0, 150)
         
-        self.game.lights['start'].blink(0.5, 255,0,0)
-    
-    def frame(self, delta):
-        self.time_since_last_switch += delta
+        self.storm_layer = MotionEffect(TextLayer(TITLE_FONT, 'STORM', (255,0,0)), 50, 10)
+        self.storm_layer.move(100, 250)
         
-        if self.time_since_last_switch > 1.5:
-            self.time_since_last_switch -= 1.5
-            self.foo = not self.foo
-            
-        if self.foo:
-            surf = ui.fonts.BIG_FONT.render('Attract', True, (255,0,0))
-        else:
-            surf = ui.fonts.BIG_FONT.render('Mode', True, (255,0,0))
+        self.layer = GroupedLayer([self.packet_layer, self.storm_layer])
         
-        self.game.display.dmd.blit(surf, (400,300))

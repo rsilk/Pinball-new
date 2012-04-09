@@ -25,10 +25,14 @@ class Light:
         self.blink_period = 0
     
     def tick(self, delta):
-        if self.blink_period:
+        if self.time_until_blink:
             self.time_until_blink -= delta
             if self.time_until_blink <= 0:
-                self.time_until_blink += self.blink_period
+                if self.blink_period == 0:
+                    # handle 'pulse'
+                    self.time_until_blink = 0
+                else:
+                    self.time_until_blink += self.blink_period
                 self.blink_state = not self.blink_state
                 if self.blink_state:
                     self.r = self.set_r
@@ -56,14 +60,29 @@ class Light:
         self.g = g
         self.b = b
     
-    def blink(self, period, r, g, b):
-        # period is in seconds
+    def pulse(self, time, r, g, b):
+        # time is in milliseconds
+        self.time_until_blink = time/1000.0
+        self.blink_period = 0
+        self.blink_state = True
         self.set_r = r
         self.set_g = g
         self.set_b = b
+        self.r = r
+        self.g = g
+        self.b = b
+    
+    def blink(self, period, r, g, b):
+        # period is in milliseconds
+        self.set_r = r
+        self.set_g = g
+        self.set_b = b
+        self.r = r
+        self.g = g
+        self.b = b
         self.blink_state = True
-        self.blink_period = period
-        self.time_until_blink = period
+        self.blink_period = period/1000.0
+        self.time_until_blink = period/1000.0
     
 
 LIGHTS = [
