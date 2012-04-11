@@ -22,6 +22,7 @@ class ScoreDisplay(Mode):
         self.ball_layer = TextLayer(SMALL_FONT, '', (255,255,255), align='right')
         self.ball_layer.move(1014, 360)
         self.layer = GroupedLayer([self.score_layer, self.player_layer, self.ball_layer])
+        self.layer.opaque = True
     
     def frame(self, delta):
         player = self.game.player()

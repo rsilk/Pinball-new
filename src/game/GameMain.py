@@ -50,13 +50,13 @@ class GameMain:
         self.players = []
         self.current_player = None
         
-        self.modes = [AttractMode(self, 0),
-                      TestDisplayMode(self, 0),
-                      ScoreDisplay(self, 1),
-                      Flippers(self, 5),
-                      Bumpers(self, 5),
-                      Lanes(self, 10),
-                      ]
+        # initialize common modes
+        self.attract_mode = AttractMode(self, 0)
+        self.test_display_mode = TestDisplayMode(self, 0)
+        
+        
+        self.modes = [self.attract_mode,
+                      self.test_display_mode]
     
     def go(self):
         while not self.done:
@@ -64,7 +64,9 @@ class GameMain:
     
     def datapath(self, path):
         # get the path to a datafile
-        return os.path.join('d:/pinball', path)
+        base_dir = os.path.dirname(__file__)
+        
+        return os.path.join(base_dir, '..', '..', 'data', path)
     
     def player(self):
         # get the current player
@@ -112,4 +114,18 @@ class GameMain:
     
     def startGame(self):
         self.addPlayer()
+        self.modes.remove(self.attract_mode)
+        self.modes.extend([ScoreDisplay(self, 1),
+                          Flippers(self, 5),
+                          Bumpers(self, 5),
+                          Lanes(self, 10)])
         self.current_player = self.players[0]
+    
+    def startBall(self):
+        pass
+    
+    def ballDrained(self):
+        pass
+    
+    def ballLocked(self):
+        pass

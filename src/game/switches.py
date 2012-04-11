@@ -42,4 +42,9 @@ SWITCHES = [
     Switch('pop1', 750, 220, 1, 11),
     Switch('pop2', 750, 230, 1, 12),
     Switch('pop3', 750, 240, 1, 13),
+    
+    # locks
+    Switch('lock1', 750, 260, 1, 14),
+    Switch('lock2', 750, 270, 1, 14),
+    Switch('lock3', 750, 280, 1, 14),
 ]

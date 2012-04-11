@@ -17,3 +17,5 @@ class Compositor:
             if not layer:
                 continue
             layer.drawOnto(self.target, delta)
+            if layer.opaque:
+                break

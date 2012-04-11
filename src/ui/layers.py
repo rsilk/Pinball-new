@@ -14,6 +14,7 @@ class DisplayLayer:
         self.y = 0
         self.frames = frames
         self.operation = 'blit'
+        self.opaque = False # if True, none of the layers below this will be drawn
     
     def move(self, x, y):
         self.x = x
