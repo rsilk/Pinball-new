@@ -9,4 +9,9 @@ class Player:
         self.name = name
         self.score = 0
         self.multiplier = 1
+        self.extra_balls = 0
         self.gamestate = None
+        self.bonuses = {}
+        
+        self.bonuses = {'bonus1': 12345,
+                        'bonus2': 6789}

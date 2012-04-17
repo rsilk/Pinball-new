@@ -11,6 +11,7 @@ class Compositor:
     
     def frame(self, delta):
         modes = self.game.modes
+            
         for mode in reversed(modes):
             # reversed so top layers get drawn last
             layer = mode.getLayer()

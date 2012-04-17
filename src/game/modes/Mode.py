@@ -40,6 +40,7 @@ class Mode(object):
         self.handled_switches.append((switch_name, event, handler))
     
     def delay(self, name, delay, handler, *args):
+        ''' delay in seconds '''
         delayed_time = time.time() + delay
         self.delayed.append((delayed_time, name, handler, args))
     

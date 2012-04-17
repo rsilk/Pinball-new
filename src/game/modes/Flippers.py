@@ -16,9 +16,7 @@ class Flippers(Mode):
         self.addHandler('flipR', 'open', 0, self.unflip)
     
     def flip(self, switch):
-        print "flip %s" % switch.name
         self.game.drivers[switch.name].active = True
     
     def unflip(self, switch):
-        print "unflip %s" % switch.name
         self.game.drivers[switch.name].active = False

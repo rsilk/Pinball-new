@@ -122,21 +122,19 @@ class GameMain:
         self.modes.remove(self.attract_mode)
         
         self.score_display_mode = ScoreDisplay(self, 1)
-        self.modes.append(self.score_display_mode)
         
         self.current_player = self.players[0]
         
         self.startBall()
     
     def endGame(self):
-        self.modes.remove(self.score_display_mode)
-        
         self.modes.append(self.attract_mode)
     
     def startBall(self):
-        self.basic_modes = [Flippers(self, 5),
-                          Bumpers(self, 5),
-                          Lanes(self, 10)]
+        self.basic_modes = [self.score_display_mode,
+                            Flippers(self, 5),
+                            Bumpers(self, 5),
+                            Lanes(self, 10)]
         self.modes.extend(self.basic_modes)
         self.trough.launchBall()
 
@@ -160,7 +158,7 @@ class GameMain:
         for mode in self.basic_modes:
             self.modes.remove(mode)
         
-        self.modes.append(BallDrainedMode(self, 100)) # this will eventually call endBall
+        self.modes.append(BallDrainedMode(self, 100, self.player().bonuses)) # this will eventually call endBall
     
     def ballLocked(self):
         pass
