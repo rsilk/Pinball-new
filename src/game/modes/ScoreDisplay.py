@@ -29,3 +29,7 @@ class ScoreDisplay(Mode):
         if player:
             self.score_layer.setText('%02d' % player.score)
             self.player_layer.setText(player.name)
+            self.ball_layer.setText('Ball %s' % self.game.current_ball)
+        else:
+            self.player_layer.setText('Game over')
+            self.ball_layer.setText('Game over')
