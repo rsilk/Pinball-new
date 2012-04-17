@@ -13,13 +13,13 @@ class ScoreDisplay(Mode):
     def __init__(self, game, prio):
         Mode.__init__(self, game, prio)
         
-        self.score_layer = TextLayer(TITLE_FONT, '', (255,255,255), align='center')
+        self.score_layer = TextLayer(TITLE_FONT, '', self.game.color(255,255,255), align='center')
         self.score_layer.move(1024/2, 175)
         
-        self.player_layer = TextLayer(SMALL_FONT, '', (255,255,255))
+        self.player_layer = TextLayer(SMALL_FONT, '', self.game.color(255,255,255))
         self.player_layer.move(10, 360)
         
-        self.ball_layer = TextLayer(SMALL_FONT, '', (255,255,255), align='right')
+        self.ball_layer = TextLayer(SMALL_FONT, '', self.game.color(255,255,255), align='right')
         self.ball_layer.move(1014, 360)
         self.layer = GroupedLayer([self.score_layer, self.player_layer, self.ball_layer])
 #        self.layer.opaque = True

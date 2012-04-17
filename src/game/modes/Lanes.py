@@ -58,6 +58,6 @@ class Lanes(Mode):
     def _updateLights(self):
         for state, light_name in zip(self.states, self.lights):
             if state:
-                self.game.lights[light_name].on(255,255,255)
+                self.game.lights[light_name].on(self.game.color(255,255,255))
             else:
                 self.game.lights[light_name].off()

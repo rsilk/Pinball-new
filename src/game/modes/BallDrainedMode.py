@@ -26,8 +26,11 @@ class BallDrainedMode(Mode):
         self.ms_since_bonus_displayed = 0
         self.waiting = False
         
-        self.layer = TextLayer(BIG_FONT, '', (255,255,255), align='center')
-        self.layer.move(1024/2, 175)
+        self.message_layer = TextLayer(BIG_FONT, 'CONNECTION LOST', self.game.color(255,255,255), align='center')
+        self.message_layer.move(1024/2, 130)
+        self.bonus_layer = TextLayer(BIG_FONT, '', self.game.color(255,255,255), align='center')
+        self.bonus_layer.move(1024/2, 195)
+        self.layer = GroupedLayer([self.message_layer, self.bonus_layer])
         
     def frame(self, delta):
         if self.waiting:
@@ -44,7 +47,7 @@ class BallDrainedMode(Mode):
             self.delay('next', 1.25, self.nextBonus)
             self.waiting = True
         partial_bonus_str = bonus_str[0:last_letter]
-        self.layer.setText(partial_bonus_str)
+        self.bonus_layer.setText(partial_bonus_str)
         
     def nextBonus(self):
         self.current_bonus_index += 1

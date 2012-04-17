@@ -19,6 +19,7 @@ from game.modes.ScoreDisplay import ScoreDisplay
 from game.modes.BallDrainedMode import BallDrainedMode
 from game.modes.Trough import Trough
 
+from game.ColorManager import ColorManager
 from game.Player import Player
 from game.switches import SWITCHES
 from game.lights import LIGHTS
@@ -48,6 +49,8 @@ class GameMain:
         self.drivers = {}
         for driver in DRIVERS:
             self.drivers[driver.name] = driver
+            
+        self.color_manager = ColorManager()
         
         self.players = []
         self.current_player = None
@@ -71,6 +74,9 @@ class GameMain:
         base_dir = os.path.dirname(__file__)
         
         return os.path.join(base_dir, '..', '..', 'data', path)
+    
+    def color(self, *input_color):
+        return self.color_manager.translate(*input_color)
     
     def player(self):
         # get the current player
