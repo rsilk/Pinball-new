@@ -13,15 +13,15 @@ class AttractMode(Mode):
     def __init__(self, *args):
         Mode.__init__(self, *args)
         
-        self.game.lights['start'].blink(100, 255,0,0)
+        self.game.lights['start'].blink(100, self.game.color(255,255,255))
         
-        self.packet_layer = TextLayer(TITLE_FONT, 'PACKET', (255,255,255))
+        self.packet_layer = TextLayer(TITLE_FONT, 'PACKET', self.game.color(255,255,255))
         self.packet_layer.move(275, 150)
         
-        self.storm_layer = TextLayer(TITLE_FONT, 'STORM', (255,255,255))
+        self.storm_layer = TextLayer(TITLE_FONT, 'STORM', self.game.color(255,255,255))
         self.storm_layer.move(475, 205)
         
-        self.start_layer = TextLayer(BIG_FONT, 'PRESS START', (255,255,255), align='center')
+        self.start_layer = TextLayer(BIG_FONT, 'PRESS START', self.game.color(255,255,255), align='center')
         self.start_layer.move(1024/2, 350)
         
         infile = open(__file__, 'r')

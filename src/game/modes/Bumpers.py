@@ -22,11 +22,11 @@ class Bumpers(Mode):
     def slingshot(self, switch):
         # assumes driver name == switch name for now
         self.game.drivers[switch.name].pulse(20)
-        self.game.lights[switch.name].pulse(50, 255,255,255)
+        self.game.lights[switch.name].pulse(50, self.game.color(255,255,255))
         self.game.player().score += 100
     
     def bumper(self, switch):
         # assumes driver name == switch name for now
         self.game.drivers[switch.name].pulse(20)
-        self.game.lights[switch.name].pulse(50, 255,255,255)
+        self.game.lights[switch.name].pulse(50, self.game.color(255,255,255))
         self.game.player().score += 100

@@ -19,6 +19,9 @@ class Trough(Mode):
         self.shooter_switch = 'shooter'
         
         self.addHandler(self.outhole_switch, 'closed', 30, self.ballDrained)
+        
+        for switch_name in self.trough_switches:
+            self.addHandler(switch_name, 'closed', 0, self.handleTroughSwitch)
     
         
     
@@ -41,7 +44,10 @@ class Trough(Mode):
             self.game.drivers['lock'].pulse(30)
             self.balls_in_lock -= 1
     
-    def updateTroughStatus(self, switch):
+    def handleTroughSwitch(self, switch):
+        self.delay('check trough', 500, self.updateTroughStatus)
+    
+    def updateTroughStatus(self):
         balls_in_trough = 0
         for switch_name in self.trough_switches:
             if self.game.switches[switch_name].active:

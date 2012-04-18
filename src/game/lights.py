@@ -52,7 +52,10 @@ class Light:
         self.g = 0
         self.b = 0
     
-    def on(self, r, g, b):
+    def on(self, color):
+        r = color.r
+        g = color.g
+        b = color.b
         self.set_r = r
         self.set_g = g
         self.set_b = b
@@ -60,8 +63,12 @@ class Light:
         self.g = g
         self.b = b
     
-    def pulse(self, time, r, g, b):
+    def pulse(self, time, color):
         # time is in milliseconds
+        r = color.r
+        g = color.g
+        b = color.b
+        
         self.time_until_blink = time/1000.0
         self.blink_period = 0
         self.blink_state = True
@@ -72,8 +79,12 @@ class Light:
         self.g = g
         self.b = b
     
-    def blink(self, period, r, g, b):
+    def blink(self, period, color):
         # period is in milliseconds
+        r = color.r
+        g = color.g
+        b = color.b
+        
         self.set_r = r
         self.set_g = g
         self.set_b = b

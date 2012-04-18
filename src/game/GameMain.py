@@ -16,7 +16,10 @@ from game.modes.Lanes import Lanes
 from game.modes.Flippers import Flippers
 from game.modes.Bumpers import Bumpers
 from game.modes.ScoreDisplay import ScoreDisplay
+from game.modes.BallDrainedMode import BallDrainedMode
+from game.modes.Trough import Trough
 
+from game.ColorManager import ColorManager
 from game.Player import Player
 from game.switches import SWITCHES
 from game.lights import LIGHTS
@@ -46,17 +49,21 @@ class GameMain:
         self.drivers = {}
         for driver in DRIVERS:
             self.drivers[driver.name] = driver
+            
+        self.color_manager = ColorManager()
         
         self.players = []
         self.current_player = None
+        self.current_ball = 0
         
         # initialize common modes
         self.attract_mode = AttractMode(self, 0)
         self.test_display_mode = TestDisplayMode(self, 0)
         
-        
+        self.trough = Trough(self, 1)
         self.modes = [self.attract_mode,
-                      self.test_display_mode]
+                      self.test_display_mode,
+                      self.trough]
     
     def go(self):
         while not self.done:
@@ -67,6 +74,9 @@ class GameMain:
         base_dir = os.path.dirname(__file__)
         
         return os.path.join(base_dir, '..', '..', 'data', path)
+    
+    def color(self, *input_color):
+        return self.color_manager.translate(*input_color)
     
     def player(self):
         # get the current player
@@ -109,23 +119,52 @@ class GameMain:
         self.display.endFrame()
     
     def addPlayer(self):
-        player = Player('Player 1')
+        player = Player('Player %s' % (len(self.players) + 1))
         self.players.append(player)
     
     def startGame(self):
+        self.current_ball = 1
         self.addPlayer()
         self.modes.remove(self.attract_mode)
-        self.modes.extend([ScoreDisplay(self, 1),
-                          Flippers(self, 5),
-                          Bumpers(self, 5),
-                          Lanes(self, 10)])
+        
+        self.score_display_mode = ScoreDisplay(self, 1)
+        
         self.current_player = self.players[0]
+        
+        self.startBall()
+    
+    def endGame(self):
+        self.modes.append(self.attract_mode)
     
     def startBall(self):
-        pass
+        self.basic_modes = [self.score_display_mode,
+                            Flippers(self, 5),
+                            Bumpers(self, 5),
+                            Lanes(self, 10)]
+        self.modes.extend(self.basic_modes)
+        self.trough.launchBall()
+
+    def endBall(self):
+        # TODO: handle extra balls
+        current_player_offset = self.players.index(self.current_player)
+        next_player_offset = current_player_offset + 1
+        if next_player_offset == len(self.players):
+            next_player_offset = 0
+            self.current_ball += 1
+            if self.current_ball > 3:
+                self.endGame()
+                return
+            
+        self.current_player = self.players[next_player_offset]
+        self.startBall()
     
     def ballDrained(self):
-        pass
+        # TODO: don't do this if in multiball
+        
+        for mode in self.basic_modes:
+            self.modes.remove(mode)
+        
+        self.modes.append(BallDrainedMode(self, 100, self.player().bonuses)) # this will eventually call endBall
     
     def ballLocked(self):
         pass
