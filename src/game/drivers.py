@@ -37,4 +37,6 @@ DRIVERS = [
     Driver('pop1', 800, 70, 5, 6),
     Driver('pop2', 800, 80, 5, 7),
     Driver('pop3', 800, 90, 5, 8),
+    Driver('lock', 800, 100, 5, 9),
+    Driver('scoop', 800, 110, 5, 10),
     ]

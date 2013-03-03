@@ -25,9 +25,9 @@ class Display:
         pass
     
     def beginFrame(self):
-        self.screen.fill((0,0,0))
+#        self.screen.fill((0,0,0))
         self.dmd.clear()
-        self.upper.clear()
+#        self.upper.clear()
     
     def endFrame(self):
         self.screen.blit(self.dmd.surface, dest=(self.dmd.x, self.dmd.y))

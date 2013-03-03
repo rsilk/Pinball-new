@@ -47,4 +47,22 @@ SWITCHES = [
     Switch('lock1', 750, 260, 1, 14),
     Switch('lock2', 750, 270, 1, 14),
     Switch('lock3', 750, 280, 1, 14),
+    
+    # lanes
+    Switch('lane1', 820, 150, 1, 14),
+    Switch('lane2', 820, 160, 1, 14),
+    Switch('lane3', 820, 170, 1, 14),
+    
+    # standups
+    Switch('standup1', 820, 190, 1, 14),
+    Switch('standup2', 820, 200, 1, 14),
+    Switch('standup3', 820, 210, 1, 14),
+    Switch('standup4', 820, 220, 1, 14),
+    
+    # etc
+    Switch('scoop', 820, 240, 1, 14),
+    Switch('orbitL', 820, 250, 1, 14),
+    Switch('orbitR', 820, 260, 1, 14),
+    Switch('rampL', 820, 270, 1, 14),
+    Switch('rampR', 820, 280, 1, 14),
 ]

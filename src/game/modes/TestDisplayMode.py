@@ -18,15 +18,13 @@ class TestDisplayMode(Mode):
         upper_display = self.game.display.upper
         self.pf_image = pygame.image.load(self.game.datapath('playfield_sideways.png'))
         self.surface = pygame.Surface((upper_display.width, upper_display.height))
+        
+        # one-time blit of PF image and switch/coil names
         self.surface.blit(self.pf_image, (-1, 1))
         
         for switch in self.game.switches.values():
             surf = ui.fonts.TEST_DISPLAY_FONT.render(switch.name, True, (255,255,255))
             self.surface.blit(surf, (switch.x, switch.y))
-        
-#        for light in self.game.lights.values():
-#            surf = ui.fonts.TEST_DISPLAY_FONT.render(light.name, True, (255,255,255))
-#            self.surface.blit(surf, (light.x, light.y))
         
         for driver in self.game.drivers.values():
             surf = ui.fonts.TEST_DISPLAY_FONT.render(driver.name, True, (255,255,255))
