@@ -15,7 +15,8 @@ class Display:
     DMD_H = 576
     
     def __init__(self):
-        self.screen = pygame.display.set_mode((self.W, self.H))
+        self.screen = pygame.display.set_mode((self.W, self.H),
+                                              pygame.FULLSCREEN|pygame.HWSURFACE|pygame.DOUBLEBUF)
         self.dmd = Subdisplay(self.screen, 1024, 384, 0, 384)
         self.upper = Subdisplay(self.screen, 1024, 384, 0, 0)
         
