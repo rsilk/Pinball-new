@@ -79,6 +79,7 @@ class Menu(Mode):
         self.help_layer.move(1024/2, 360)
         
         self.layer = GroupedLayer([self.help_layer, self.middle_layer, self.left_layer, self.right_layer])
+        self.layer.opaque = True
         
     def rotateLeft(self, sw):
         self.delay('rotate', 0.01, self._interval, 'left', 0)
@@ -103,6 +104,7 @@ class Menu(Mode):
                     new_index = self.current_item_index - 1
             self.new_item_layer = ImageLayer(self.items[new_index].image_path)
             self.layer = GroupedLayer([self.help_layer, self.middle_layer, self.left_layer, self.right_layer, self.new_item_layer])
+            self.layer.opaque = True
         
         if direction == 'left':
             # move middle item

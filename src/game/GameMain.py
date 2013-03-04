@@ -59,11 +59,6 @@ class GameMain:
         self.current_ball = 0
         
         # initialize common modes
-        menu_items = [MenuItem(self.datapath('menu_item1.png'), '1'),
-                      MenuItem(self.datapath('menu_item2.png'), '2'),
-                      MenuItem(self.datapath('menu_item3.png'), '3'),
-                      MenuItem(self.datapath('menu_item4.png'), '4')]
-#        self.attract_mode = Menu(self, 0, menu_items)
         self.attract_mode = AttractMode(self, 0)
         self.test_display_mode = TestDisplayMode(self, 0)
         
