@@ -19,6 +19,7 @@ from game.modes.ScoreDisplay import ScoreDisplay
 from game.modes.BallDrainedMode import BallDrainedMode
 from game.modes.Trough import Trough
 from game.modes.Menu import Menu, MenuItem
+from game.modes.Scoop import Scoop
 
 from game.ColorManager import ColorManager
 from game.Player import Player
@@ -146,7 +147,8 @@ class GameMain:
         self.basic_modes = [self.score_display_mode,
                             Flippers(self, 5),
                             Bumpers(self, 5),
-                            Lanes(self, 10)]
+                            Lanes(self, 10),
+                            Scoop(self, 10)]
         self.modes.extend(self.basic_modes)
         self.trough.launchBall()
 

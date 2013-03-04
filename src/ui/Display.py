@@ -15,7 +15,8 @@ class Display:
     DMD_H = 576
     
     def __init__(self):
-        self.screen = pygame.display.set_mode((self.W, self.H))
+        self.screen = pygame.display.set_mode((self.W, self.H),
+                                              pygame.FULLSCREEN|pygame.HWSURFACE|pygame.DOUBLEBUF)
         self.dmd = Subdisplay(self.screen, 1024, 384, 0, 384)
         self.upper = Subdisplay(self.screen, 1024, 384, 0, 0)
         
@@ -24,9 +25,9 @@ class Display:
         pass
     
     def beginFrame(self):
-        self.screen.fill((0,0,0))
+#        self.screen.fill((0,0,0))
         self.dmd.clear()
-        self.upper.clear()
+#        self.upper.clear()
     
     def endFrame(self):
         self.screen.blit(self.dmd.surface, dest=(self.dmd.x, self.dmd.y))

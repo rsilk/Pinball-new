@@ -66,6 +66,9 @@ class Events:
                 events.append(MouseUpEvent(event.pos))
             elif event.type == MOUSEMOTION:
                 events.append(MouseMoveEvent(event.pos))
+            elif event.type == KEYDOWN:
+                if event.key == K_q:
+                    events.append(QuitEvent())
         return events
     
     def getHardwareEvents(self):
