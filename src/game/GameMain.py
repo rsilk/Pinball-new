@@ -18,6 +18,7 @@ from game.modes.Bumpers import Bumpers
 from game.modes.ScoreDisplay import ScoreDisplay
 from game.modes.BallDrainedMode import BallDrainedMode
 from game.modes.Trough import Trough
+from game.modes.Menu import Menu, MenuItem
 
 from game.ColorManager import ColorManager
 from game.Player import Player
@@ -57,7 +58,12 @@ class GameMain:
         self.current_ball = 0
         
         # initialize common modes
-        self.attract_mode = AttractMode(self, 0)
+        menu_items = [MenuItem(self.datapath('menu_item1.png'), '1'),
+                      MenuItem(self.datapath('menu_item2.png'), '2'),
+                      MenuItem(self.datapath('menu_item3.png'), '3'),
+                      MenuItem(self.datapath('menu_item4.png'), '4')]
+        self.attract_mode = Menu(self, 0, menu_items)
+#        self.attract_mode = AttractMode(self, 0)
         self.test_display_mode = TestDisplayMode(self, 0)
         
         self.trough = Trough(self, 1)
