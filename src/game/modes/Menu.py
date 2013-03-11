@@ -19,21 +19,23 @@ class Menu(Mode):
     A menu for player selections. Player scrolls with the flipper buttons,
     selects with start.
     
-    When a selection is made, selection_callback will be called, with the index
-    of the selected item as an argument.
+    When a selection is made (accepted), selection_callback will be called, with the index
+    of the selected item as an argument. When the currently selected menu item is changed,
+    change_callback will be called with the new index.
     '''
     
     IMAGE_SIZE = 250
     DIP_HEIGHT = 25
     BASE_HEIGHT = 10
     
-    def __init__(self, game, prio, items, selection_callback=None):
+    def __init__(self, game, prio, items, selection_callback=None, change_callback=None):
         Mode.__init__(self, game, prio)
         
         assert items
         
         self.items = items
         self.selection_callback = selection_callback
+        self.change_callback = change_callback
         self.current_item_index = 0
         
         self.middle_item_position = (1024/2 - self.IMAGE_SIZE/2, self.BASE_HEIGHT+self.DIP_HEIGHT*1)
@@ -49,22 +51,34 @@ class Menu(Mode):
         self.addHandler('flipL', 'closed', 0, self.rotateRight)
         self.addHandler('start', 'closed', 0, self.select)
     
+    def _makeLayerForIndex(self, index):
+        # use the image if we have one
+        if self.items[index].image_path:
+            return ImageLayer(self.items[index].image_path)
+        
+        # else make a surface using the text
+        return TextLayer(SMALL_FONT,
+                         self.items[index].text,
+                         self.game.color(255,255,255), 'center')
+    
     def _rebuild(self):
-        self.middle_layer = ImageLayer(self.items[self.current_item_index].image_path)
+        if self.change_callback:
+            self.change_callback(self.current_item_index)
+        self.middle_layer = self._makeLayerForIndex(self.current_item_index)
         self.middle_layer.move(*self.middle_item_position)
         
         if self.current_item_index == 0:
             left_index = len(self.items) - 1
         else:
             left_index = self.current_item_index - 1
-        self.left_layer = ImageLayer(self.items[left_index].image_path)
+        self.left_layer = self._makeLayerForIndex(left_index)
         self.left_layer.move(*self.left_item_position)
         
         if self.current_item_index == len(self.items) - 1:
             right_index = 0
         else:
             right_index = self.current_item_index + 1
-        self.right_layer = ImageLayer(self.items[right_index].image_path)
+        self.right_layer = self._makeLayerForIndex(right_index)
         self.right_layer.move(*self.right_item_position)
         
         self.new_item_layer = None
@@ -102,7 +116,7 @@ class Menu(Mode):
                     new_index = len(self.items) - 2
                 else:
                     new_index = self.current_item_index - 1
-            self.new_item_layer = ImageLayer(self.items[new_index].image_path)
+            self.new_item_layer = self._makeLayerForIndex(new_index)
             self.layer = GroupedLayer([self.help_layer, self.middle_layer, self.left_layer, self.right_layer, self.new_item_layer])
             self.layer.opaque = True
         

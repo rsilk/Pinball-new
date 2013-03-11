@@ -5,11 +5,13 @@ Created on 2012-04-07
 '''
 
 class Light:
-    def __init__(self, name, x, y, device, offsetR, offsetG, offsetB):
+    def __init__(self, name, x, y, deviceR, deviceG, deviceB, offsetR, offsetG, offsetB):
         self.name = name
         self.x = x
         self.y = y
-        self.device = device
+        self.deviceR = deviceR
+        self.deviceG = deviceG
+        self.deviceB = deviceB
         self.offsetR = offsetR
         self.offsetG = offsetG
         self.offsetB = offsetB
@@ -98,18 +100,26 @@ class Light:
 
 LIGHTS = [
     # cabinet lights
-    Light('start', 29, 69, 0, 7, None, None),
+    Light('start', 29, 69, 0, None, None, 7, None, None),
     
     # lower PF
-    Light('outlaneL', 275, 21, 2, 0, 1, 2),
-    Light('inlaneL', 279, 44, 2, 3, 4, 5),
-    Light('slingshotL', 203, 83, 3, 0, 1, 2),
-    Light('slingshotR', 202, 234, 3, 3, 4, 5),
-    Light('inlaneR', 278, 271, 4, 0, 1, 2),
-    Light('outlaneR', 276, 294, 4, 3, 4, 5),
+    Light('outlaneL', 275, 21, 2, 2, 2, 0, 1, 2),
+    Light('inlaneL', 279, 44, 2, 2, 2, 3, 4, 5),
+    Light('slingshotL', 203, 83, 3, 3, 3, 0, 1, 2),
+    Light('slingshotR', 202, 234, 3, 3, 3, 3, 4, 5),
+    Light('inlaneR', 278, 271, 4, 4, 4, 0, 1, 2),
+    Light('outlaneR', 276, 294, 4, 4, 4, 3, 4, 5),
     
     # upper PF
-    Light('pop1', 554, 198, 5, 0, 1, 2),
-    Light('pop2', 602, 148, 5, 3, 4, 5),
-    Light('pop3', 618, 241, 5, 6, 7, 8),
+    Light('pop1', 554, 198, 5, 5, 5, 0, 1, 2),
+    Light('pop2', 602, 148, 5, 5, 5, 3, 4, 5),
+    Light('pop3', 618, 241, 5, 5, 5, 6, 7, 8),
+    
+    # mode ring
+    Light('ring1', 412, 131, 5, 5, 5, 0, 1, 2),
+    Light('ring2', 412, 183, 5, 5, 5, 0, 1, 2),
+    Light('ring3', 365, 209, 5, 5, 5, 0, 1, 2),
+    Light('ring4', 320, 183, 5, 5, 5, 0, 1, 2),
+    Light('ring5', 320, 131, 5, 5, 5, 0, 1, 2),
+    Light('ring6', 365, 104, 5, 5, 5, 0, 1, 2),
     ]
