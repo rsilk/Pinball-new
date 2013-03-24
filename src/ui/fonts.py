@@ -5,12 +5,16 @@ Created on 2012-02-19
 '''
 
 import pygame
-
+import os.path
 pygame.font.init()
 
-TITLE_FONT = pygame.font.SysFont('Upheaval Pro', 100)
-BIG_FONT = pygame.font.SysFont('Upheaval Pro', 48)
-SMALL_FONT = pygame.font.SysFont('Upheaval Pro', 25)
+def _findFont(filename):
+    path = os.path.normpath(os.path.join(os.path.dirname(__file__), '..', '..', 'data', filename))
+    print path
+    return path
+TITLE_FONT = pygame.font.Font(_findFont('UpheavalPro.ttf'), 100)
+BIG_FONT = pygame.font.Font(_findFont('UpheavalPro.ttf'), 48)
+SMALL_FONT = pygame.font.Font(_findFont('UpheavalPro.ttf'), 25)
 TEST_DISPLAY_FONT = pygame.font.SysFont('Arial', 12)
 
 def renderLines(font, lines, antialias, color, background=None):
