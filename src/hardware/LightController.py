@@ -17,6 +17,12 @@ class LightController(object):
         self.bus = smbus.SMBus(0)
         
         self.devices = [Pca9634(self.bus, 0x3f)]
+
+    def shutdown(self):
+        if not _HW_ENABLED:
+            return
+        for device in self.devices:
+            device.shutdown()
     
     def update(self, lights):
         if not _HW_ENABLED:

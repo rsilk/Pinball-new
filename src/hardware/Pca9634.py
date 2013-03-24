@@ -38,6 +38,9 @@ class Pca9634(object):
         self.bus = bus # smbus.bus object
         self.address = address # hex address
         self.reset()
+
+    def shutdown(self):
+        self.reset()
     
     def reset(self):
         mode1 = 0b00000001
@@ -56,7 +59,7 @@ class Pca9634(object):
             self.bus.write_byte_data(self.address, PWM0+i, 0)
     
     def setValue(self, led, value):
-        self.bus.write_byte_data(self.address, PWM0+led, self.brightness)
+        self.bus.write_byte_data(self.address, PWM0+led, value)
     
     def setAll(self, values):
         pass # TODO

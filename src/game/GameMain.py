@@ -7,6 +7,7 @@ import time
 import os.path
 import operator
 
+from hardware.LightController import LightController
 from hardware.Events import EventTypes
 from ui.Compositor import Compositor
 
@@ -43,6 +44,7 @@ class GameMain:
             self.switches[switch.name] = switch
         
         # initialize lights
+        self.light_controller = LightController()
         self.lights = {}
         for light in LIGHTS:
             self.lights[light.name] = light
@@ -70,6 +72,7 @@ class GameMain:
     def go(self):
         while not self.done:
             self.tick()
+        self.light_controller.shutdown()
     
     def datapath(self, path):
         # get the path to a datafile
@@ -119,6 +122,9 @@ class GameMain:
         
         self.compositor.frame(delta)
         self.display.endFrame()
+
+        # update hardware
+        self.light_controller.update(self.lights.itervalues())
     
     def addPlayer(self):
         player = Player('Player %s' % (len(self.players) + 1))
