@@ -100,7 +100,7 @@ class Light:
 
 LIGHTS = [
     # cabinet lights
-    Light('start', 29, 69, 0, None, None, 7, None, None),
+    Light('start', 29, 69, 0, 0, 0, 4, 2, 0),
     
     # lower PF
     Light('outlaneL', 275, 21, 2, 2, 2, 0, 1, 2),
