@@ -55,6 +55,9 @@ class Events:
     def inject(self, event):
         self.queued_emulated_events.append(event)
     
+    def setIOController(self, io_controller):
+        self.io_controller = io_controller
+    
     def getPygameEvents(self):
         events = []
         for event in pygame.event.get():
@@ -71,12 +74,9 @@ class Events:
                     events.append(QuitEvent())
         return events
     
-    def getHardwareEvents(self):
-        return []
-    
     def getEvents(self):
         events = self.getPygameEvents()
-        events.extend(self.getHardwareEvents())
+        events.extend(self.io_controller.getSwitchEvents())
         events.extend(self.queued_emulated_events)
         self.queued_emulated_events = []
         return events

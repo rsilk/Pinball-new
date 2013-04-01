@@ -11,10 +11,11 @@ except ImportError:
     _HW_ENABLED = False
     
 class LightController(object):
-    def __init__(self):
+    def __init__(self, lights):
         if not _HW_ENABLED:
             return
         self.bus = smbus.SMBus(0)
+        self.lights = lights
         
         self.devices = [Pca9634(self.bus, 0x3f)]
 
@@ -24,11 +25,11 @@ class LightController(object):
         for device in self.devices:
             device.shutdown()
     
-    def update(self, lights):
+    def update(self):
         if not _HW_ENABLED:
             return
         
-        for light in lights:
+        for light in self.lights:
             try:
                 r_dev = self.devices[light.deviceR]
                 r_dev.setValue(light.offsetR, light.r)

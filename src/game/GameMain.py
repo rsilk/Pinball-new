@@ -8,6 +8,7 @@ import os.path
 import operator
 
 from hardware.LightController import LightController
+from hardware.IOController import IOController
 from hardware.Events import EventTypes
 from ui.Compositor import Compositor
 
@@ -38,21 +39,23 @@ class GameMain:
         
         self.done = False
         
-        # initialize switches
-        self.switches = {}
-        for switch in SWITCHES:
-            self.switches[switch.name] = switch
-        
         # initialize lights
-        self.light_controller = LightController()
+        self.light_controller = LightController(LIGHTS)
         self.lights = {}
         for light in LIGHTS:
             self.lights[light.name] = light
         
         # initialize drivers
+        self.io_controller = IOController(DRIVERS, SWITCHES)
         self.drivers = {}
         for driver in DRIVERS:
             self.drivers[driver.name] = driver
+        
+        # initialize switches
+        self.events.setIOController(self.io_controller)
+        self.switches = {}
+        for switch in SWITCHES:
+            self.switches[switch.name] = switch
             
         self.color_manager = ColorManager()
         
@@ -124,7 +127,8 @@ class GameMain:
         self.display.endFrame()
 
         # update hardware
-        self.light_controller.update(self.lights.itervalues())
+        self.light_controller.update()
+        self.io_controller.update()
     
     def addPlayer(self):
         player = Player('Player %s' % (len(self.players) + 1))
