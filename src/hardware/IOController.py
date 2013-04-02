@@ -56,12 +56,18 @@ class IOController(object):
             except IndexError:
                 continue # no device for that switch
             val = dev.getPinValue(switch.offset)
-            if val != switch.active:
+            if val == switch.active:
+                print "val %s" % val
+                print "active %s" % switch.active
                 if not val:
                     # pin low = switch closed (pin pulled to ground)
                     event = SwitchClosedEvent(switch)
+                    print "switch %s closed" % switch.name
                 else:
                     event = SwitchOpenEvent(switch)
+                    print "switch %s opened" % switch.name
+                #switch.active = val
+                #print "set active %s" % switch.active
                 self.events.append(event)
     
     def getSwitchEvents(self):
