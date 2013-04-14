@@ -21,7 +21,7 @@ class Scoop(Mode):
         
         self.mode_lights = ['ring1', 'ring2', 'ring3', 'ring4', 'ring5', 'ring6']
         self.currently_selected_mode_index = 0
-        
+        self.game.lights['scoop'].blink(100, self.game.color(255,255,255))
     
     def ballInScoop(self, switch):
         # select a mode

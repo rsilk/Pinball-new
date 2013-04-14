@@ -15,12 +15,15 @@ class DisplayLayer:
         self.frames = frames
         self.operation = 'blit'
         self.opaque = False # if True, none of the layers below this will be drawn
+        self.dirty = True
     
     def move(self, x, y):
         self.x = x
         self.y = y
+        self.dirty = True
     
     def frame(self, delta):
+        self.dirty = True
         return self.frames[0]
     
     def drawOnto(self, target, delta):
@@ -53,6 +56,7 @@ class TextLayer(DisplayLayer):
         text_surf = self.font.render(text, self.aa, self.color)
         self.frames = [text_surf]
         self.move(self.set_x, self.set_y)
+        self.dirty = True
     
     def move(self, x, y):
         self.set_x = x
@@ -65,6 +69,7 @@ class TextLayer(DisplayLayer):
             self.x = self.set_x - self.width()/2
         elif self.align == 'right':
             self.x = self.set_x - self.width()
+        self.dirty = True
     
     def width(self):
         return self.frames[0].get_width()
@@ -83,6 +88,7 @@ class AnimationLayer(DisplayLayer):
             self.current_frame += 1
             self.current_frame %= len(self.frames)
             self.time_until_next_frame += self.delay
+            self.dirty = True
         return self.frames[self.current_frame]
 
 
@@ -126,6 +132,7 @@ class MotionEffect(DisplayLayer):
         new_x = self.x + self.dx*delta
         new_y = self.y + self.dy*delta
         self.move(new_x, new_y)
+        self.dirty = True
         return self.layer.frame(delta)
 
 class FadeEffect(DisplayLayer):
@@ -142,4 +149,5 @@ class FadeEffect(DisplayLayer):
         self.alpha += self.da*delta
         surf = self.layer.frame(delta).copy()
         surf.set_alpha(self.alpha)
+        self.dirty = True
         return surf

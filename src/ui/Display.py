@@ -27,10 +27,14 @@ class Display:
     
     def beginFrame(self):
 #        self.screen.fill((0,0,0))
-        self.dmd.clear()
+#        self.dmd.clear()
 #        self.upper.clear()
+        pass
     
-    def endFrame(self):
-        self.screen.blit(self.dmd.surface, dest=(self.dmd.x, self.dmd.y))
-        self.screen.blit(self.upper.surface, dest=(self.upper.x, self.upper.y))
-        pygame.display.flip()
+    def endFrame(self, dmd_dirty, upper_dirty):
+        if dmd_dirty:
+            self.screen.blit(self.dmd.surface, dest=(self.dmd.x, self.dmd.y))
+        if upper_dirty:
+            self.screen.blit(self.upper.surface, dest=(self.upper.x, self.upper.y))
+        if dmd_dirty or upper_dirty:
+            pygame.display.flip()

@@ -109,11 +109,22 @@ LIGHTS = [
     Light('slingshotR', 202, 234, 3, 3, 3, 3, 4, 5),
     Light('inlaneR', 278, 271, 4, 4, 4, 0, 1, 2),
     Light('outlaneR', 276, 294, 4, 4, 4, 3, 4, 5),
+    Light('shootagain', 89, 157, 5, 5, 5, 0, 1, 2),
+    Light('lock1', 195, 137, 5, 5, 5, 0, 1, 2),
+    Light('lock2', 195, 176, 5, 5, 5, 0, 1, 2),
+    Light('multiball', 162, 157, 5, 5, 5, 0, 1, 2),
     
     # upper PF
     Light('pop1', 554, 198, 5, 5, 5, 0, 1, 2),
     Light('pop2', 602, 148, 5, 5, 5, 3, 4, 5),
     Light('pop3', 618, 241, 5, 5, 5, 6, 7, 8),
+    Light('lane1', 695, 149, 5, 5, 5, 0, 1, 2),
+    Light('lane2', 695, 183, 5, 5, 5, 0, 1, 2),
+    Light('lane3', 695, 217, 5, 5, 5, 0, 1, 2),
+    Light('scoop', 483, 157, 5, 5, 5, 0, 1, 2),
+    Light('lock', 544, 246, 5, 5, 5, 0, 1, 2),
+    Light('leftorbit', 413, 53, 5, 5, 5, 0, 1, 2),
+    Light('rightorbit', 471, 309, 5, 5, 5, 0, 1, 2),
     
     # mode ring
     Light('ring1', 412, 131, 5, 5, 5, 0, 1, 2),

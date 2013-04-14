@@ -8,15 +8,32 @@ class Compositor:
     def __init__(self, game, target):
         self.game = game
         self.target = target
+        self.last_visible_modes = set()
     
     def frame(self, delta):
         modes = self.game.modes
-            
-        for mode in reversed(modes):
-            # reversed so top layers get drawn last
+        
+        dirty = False
+        visible_modes = []
+        for mode in modes.orderedModes():
+            dirty = dirty or mode.dirty
             layer = mode.getLayer()
             if not layer:
                 continue
-            layer.drawOnto(self.target, delta)
+            visible_modes.append(mode)
             if layer.opaque:
                 break
+        if not dirty and set(visible_modes) != self.last_visible_modes:
+            dirty = True
+        self.last_visible_modes = set(visible_modes)
+        
+        if dirty:
+            self.target.clear()
+            for mode in reversed(visible_modes):
+                # reversed so top layers get drawn last
+                layer = mode.getLayer()
+                layer.drawOnto(self.target, delta)
+                mode.dirty = False
+            return True
+        else:
+            return False

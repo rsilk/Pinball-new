@@ -7,18 +7,11 @@ from game.modes.Mode import Mode
 
 class Lanes(Mode):
     
-    def __init__(self, game, prio):
+    def __init__(self, game, prio, switch_names, light_names):
         Mode.__init__(self, game, prio)
         
-        self.switches = ['outlaneL',
-                         'inlaneL',
-                         'inlaneR',
-                         'outlaneR']
-        
-        self.lights = ['outlaneL',
-                       'inlaneL',
-                       'inlaneR',
-                       'outlaneR']
+        self.switches = switch_names
+        self.lights = light_names
         
         self.states = [False] * len(self.switches)
         

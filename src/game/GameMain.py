@@ -12,6 +12,7 @@ from hardware.IOController import IOController
 from hardware.Events import EventTypes
 from ui.Compositor import Compositor
 
+from game.modes.ModeQueue import ModeQueue
 from game.modes.AttractMode import AttractMode
 from game.modes.TestDisplayMode import TestDisplayMode
 from game.modes.Lanes import Lanes
@@ -68,9 +69,10 @@ class GameMain:
         self.test_display_mode = TestDisplayMode(self, 0)
         
         self.trough = Trough(self, 1)
-        self.modes = [self.attract_mode,
+        self.modes = ModeQueue()
+        self.modes.extend([self.attract_mode,
                       self.test_display_mode,
-                      self.trough]
+                      self.trough])
     
     def go(self):
         while not self.done:
@@ -101,18 +103,14 @@ class GameMain:
             if event.TYPE == EventTypes.QUIT:
                 self.done = True
             else:
-                for mode in self.modes:
-                    mode.event(event)
+                self.modes.event(event)
         
         now = time.time()
         delta = now - self.last_tick_at
         self.last_tick_at = now
         
         self.display.beginFrame()
-        
-        for mode in self.modes[:]: # copy in case modes get added
-            mode.handleDelayed(now)
-            mode.frame(delta)
+        self.modes.tick(now, delta)
         
         for light in self.lights.itervalues():
             light.tick(delta)
@@ -120,11 +118,9 @@ class GameMain:
         for driver in self.drivers.itervalues():
             driver.tick(delta)
         
-        # reorder modes by priority
-        self.modes = sorted(self.modes, key=operator.attrgetter('prio'), reverse=True)
-        
-        self.compositor.frame(delta)
-        self.display.endFrame()
+        dmd_dirty = self.compositor.frame(delta)
+        upper_dirty = True
+        self.display.endFrame(dmd_dirty, upper_dirty)
 
         # update hardware
         self.light_controller.update()
@@ -152,7 +148,12 @@ class GameMain:
         self.basic_modes = [self.score_display_mode,
                             Flippers(self, 5),
                             Bumpers(self, 5),
-                            Lanes(self, 10),
+                            Lanes(self, 10,
+                                  ['outlaneL','inlaneL','inlaneR','outlaneR'],
+                                  ['outlaneL','inlaneL','inlaneR','outlaneR']),
+                            Lanes(self, 10,
+                                  ['lane1', 'lane2', 'lane3'],
+                                  ['lane1', 'lane2', 'lane3']),
                             Scoop(self, 10)]
         self.modes.extend(self.basic_modes)
         self.trough.launchBall()

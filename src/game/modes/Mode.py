@@ -13,6 +13,7 @@ class Mode(object):
         self.handled_switches = [] # (swname, event, handler)
         self.delayed = []
         self.layer = None
+        self.dirty = False
     
     def event(self, event):
         # return True if this event has been handled with a terminal handler
@@ -52,3 +53,15 @@ class Mode(object):
             else:
                 next_delayed.append((delayed_time, name, handler, args))
         self.delayed = next_delayed
+    
+    def started(self):
+        ''' called when the mode is added to the active queue '''
+        pass
+    
+    def stopped(self):
+        ''' called when the mode is removed from the active queue '''
+        pass
+    
+    def top(self):
+        ''' called when the mode is first in the active queue '''
+        pass

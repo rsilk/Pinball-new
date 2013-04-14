@@ -10,8 +10,8 @@ pygame.font.init()
 
 def _findFont(filename):
     path = os.path.normpath(os.path.join(os.path.dirname(__file__), '..', '..', 'data', filename))
-    print path
     return path
+
 TITLE_FONT = pygame.font.Font(_findFont('UpheavalPro.ttf'), 100)
 BIG_FONT = pygame.font.Font(_findFont('UpheavalPro.ttf'), 48)
 SMALL_FONT = pygame.font.Font(_findFont('UpheavalPro.ttf'), 25)
