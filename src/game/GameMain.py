@@ -119,7 +119,8 @@ class GameMain:
             driver.tick(delta)
         
         dmd_dirty = self.compositor.frame(delta)
-        upper_dirty = True
+        upper_dirty = self.test_display_mode.dirty
+        self.test_display_mode.dirty = False
         self.display.endFrame(dmd_dirty, upper_dirty)
 
         # update hardware
@@ -175,6 +176,9 @@ class GameMain:
     def ballDrained(self):
         # TODO: don't do this if in multiball
         
+        for mode in self.modes.modes:
+            mode.ballEnded()
+            
         for mode in self.basic_modes:
             self.modes.remove(mode)
         

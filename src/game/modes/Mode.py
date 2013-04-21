@@ -27,7 +27,8 @@ class Mode(object):
         return False
     
     def frame(self, delta):
-        pass
+        if self.layer:
+            self.layer.tick(delta)
     
     def getLayer(self):
         return self.layer
@@ -64,4 +65,8 @@ class Mode(object):
     
     def top(self):
         ''' called when the mode is first in the active queue '''
+        pass
+    
+    def ballEnded(self):
+        ''' called when the ball is over '''
         pass

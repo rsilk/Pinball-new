@@ -29,6 +29,7 @@ class TestDisplayMode(Mode):
         for driver in self.game.drivers.values():
             surf = ui.fonts.TEST_DISPLAY_FONT.render(driver.name, True, (255,255,255))
             self.surface.blit(surf, (driver.x, driver.y))
+        self.dirty = True
     
     def event(self, event):
         if event.TYPE == EventTypes.MOUSE_DOWN:
@@ -63,3 +64,4 @@ class TestDisplayMode(Mode):
         for switch in self.game.switches.itervalues():
             if switch.active:
                 pygame.draw.circle(game_upper_display.surface, (255,0,0), (switch.x-6, switch.y+6), 6)
+        self.dirty = True

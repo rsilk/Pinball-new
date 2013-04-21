@@ -33,6 +33,7 @@ class BallDrainedMode(Mode):
         self.layer = GroupedLayer([self.message_layer, self.bonus_layer])
         
     def frame(self, delta):
+        Mode.frame(self, delta)
         if self.waiting:
             return
         bonus = self.ordered_bonuses[self.current_bonus_index]

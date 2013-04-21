@@ -19,14 +19,19 @@ class ModeQueue(object):
         self.modes.append(mode)
         # Sort by priority, descending:
         self.modes.sort(key=operator.attrgetter('prio'), reverse=True)
+        self.printDebug()
         mode.started()
         if mode == self.modes[0]:
             mode.top()
 
     def remove(self, mode):
+        if mode == self.modes[0]:
+            change_top = True
+        else:
+            change_top = False
         self.modes.remove(mode)
         mode.stopped()
-        if len(self.modes) > 0:
+        if change_top:
             self.modes[0].top()
 
     def event(self, event):
@@ -43,3 +48,7 @@ class ModeQueue(object):
     def orderedModes(self):
         ''' return a list of all the modes in the queue, in priority order '''
         return self.modes
+    
+    def printDebug(self):
+        return
+        print self.orderedModes()

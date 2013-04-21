@@ -25,6 +25,7 @@ class ScoreDisplay(Mode):
 #        self.layer.opaque = True
     
     def frame(self, delta):
+        Mode.frame(self, delta)
         player = self.game.player()
         if player:
             self.score_layer.setText('%02d' % player.score)

@@ -7,7 +7,7 @@ import pygame
 from pygame.locals import *
 import time
 
-class DisplayLayer:
+class DisplayLayer(object):
     # Show only the first frame all the time
     def __init__(self, frames):
         self.x = 0
@@ -17,17 +17,25 @@ class DisplayLayer:
         self.opaque = False # if True, none of the layers below this will be drawn
         self.dirty = True
     
+    def isDirty(self):
+        return self.dirty
+    
+    def setDirty(self, dirty):
+        self.dirty = dirty
+    
     def move(self, x, y):
         self.x = x
         self.y = y
         self.dirty = True
     
-    def frame(self, delta):
-        self.dirty = True
+    def tick(self, delta):
+        pass
+    
+    def frame(self):
         return self.frames[0]
     
-    def drawOnto(self, target, delta):
-        target.blit(self.frame(delta), (self.x, self.y))
+    def drawOnto(self, target):
+        target.blit(self.frame(), (self.x, self.y))
 
 class ImageLayer(DisplayLayer):
     # Convenience class - show a static image
@@ -73,6 +81,36 @@ class TextLayer(DisplayLayer):
     
     def width(self):
         return self.frames[0].get_width()
+    
+    def drawOnto(self, target):
+        DisplayLayer.drawOnto(self, target)
+
+class AnimatedTextLayer(TextLayer):
+    def __init__(self, font, text, color, delay=100, align=None, antialias=False,
+                 letter_added_callback=None, finished_callback=None):
+        self.full_text = text
+        print "animated text %s" % self.full_text
+        TextLayer.__init__(self, font, 'foo', color, align, antialias)
+        self.letter_added_callback = letter_added_callback
+        self.finished_callback = finished_callback
+        self.done = False
+        self.ms_per_letter = delay
+        self.ms_since_anim_started = 0
+    
+    def tick(self, delta):
+        if self.done:
+            return
+        self.ms_since_anim_started += delta*1000
+        last_letter = int(self.ms_since_anim_started/self.ms_per_letter)
+        
+        if last_letter > len(self.full_text):
+            last_letter = len(self.full_text)
+            self.done = True
+            if self.finished_callback:
+                self.finished_callback()
+                self.dirty = True
+        partial_str = self.full_text[0:last_letter]
+        TextLayer.setText(self, partial_str)
 
 class AnimationLayer(DisplayLayer):
     # Display a sequence of frames
@@ -82,13 +120,15 @@ class AnimationLayer(DisplayLayer):
         self.current_frame = 0
         self.time_until_next_frame = delay
     
-    def frame(self, delta):
+    def tick(self, delta):
         self.time_until_next_frame -= delta
         if self.time_until_next_frame <= 0:
             self.current_frame += 1
             self.current_frame %= len(self.frames)
             self.time_until_next_frame += self.delay
             self.dirty = True
+            
+    def frame(self):
         return self.frames[self.current_frame]
 
 
@@ -97,11 +137,23 @@ class GroupedLayer(DisplayLayer):
     def __init__(self, layers):
         DisplayLayer.__init__(self, None)
         self.layers = layers
+        
+    def isDirty(self):
+        d = any([layer.isDirty() for layer in self.layers])
+        return d
     
-    def frame(self, delta):
+    def setDirty(self, val):
+        for layer in self.layers:
+            layer.setDirty(val)
+
+    def tick(self, delta):
+        for layer in self.layers:
+            layer.tick(delta)
+                
+    def frame(self):
         group_rect = pygame.Rect(0,0,0,0)
         
-        frames = [layer.frame(delta) for layer in self.layers]
+        frames = [layer.frame() for layer in self.layers]
         for frame, layer in zip(frames, self.layers):
             rect = frame.get_rect()
             rect.move_ip(layer.x, layer.y)
@@ -112,9 +164,9 @@ class GroupedLayer(DisplayLayer):
             surf.blit(frame, (layer.x, layer.y)) # TODO: compositing
         return surf
     
-    def drawOnto(self, target, delta):
+    def drawOnto(self, target):
         for layer in self.layers:
-            frame = layer.frame(delta)
+            frame = layer.frame()
             target.blit(frame, (self.x+layer.x, self.y+layer.y))
 
 
@@ -128,7 +180,7 @@ class MotionEffect(DisplayLayer):
         self.dy = dy
         self.layer = layer
     
-    def frame(self, delta):
+    def tick(self, delta):
         new_x = self.x + self.dx*delta
         new_y = self.y + self.dy*delta
         self.move(new_x, new_y)
@@ -145,9 +197,11 @@ class FadeEffect(DisplayLayer):
         self.alpha = starting_alpha
         self.layer = layer
     
-    def frame(self, delta):
+    def tick(self, delta):
         self.alpha += self.da*delta
+        self.dirty = True
+    
+    def frame(self, delta):
         surf = self.layer.frame(delta).copy()
         surf.set_alpha(self.alpha)
-        self.dirty = True
         return surf

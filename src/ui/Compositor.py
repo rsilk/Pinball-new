@@ -16,10 +16,10 @@ class Compositor:
         dirty = False
         visible_modes = []
         for mode in modes.orderedModes():
-            dirty = dirty or mode.dirty
             layer = mode.getLayer()
             if not layer:
                 continue
+            dirty = dirty or layer.isDirty()
             visible_modes.append(mode)
             if layer.opaque:
                 break
@@ -32,8 +32,8 @@ class Compositor:
             for mode in reversed(visible_modes):
                 # reversed so top layers get drawn last
                 layer = mode.getLayer()
-                layer.drawOnto(self.target, delta)
-                mode.dirty = False
+                layer.drawOnto(self.target)
+                layer.setDirty(False)
             return True
         else:
             return False

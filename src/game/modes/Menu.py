@@ -33,6 +33,7 @@ class Menu(Mode):
         
         assert items
         
+        self.use_alpha = False
         self.items = items
         self.selection_callback = selection_callback
         self.change_callback = change_callback
@@ -83,9 +84,10 @@ class Menu(Mode):
         
         self.new_item_layer = None
         
-        self.middle_layer.frames[0].set_alpha(255)
-        self.left_layer.frames[0].set_alpha(155)
-        self.right_layer.frames[0].set_alpha(155)
+        if self.use_alpha:
+            self.middle_layer.frames[0].set_alpha(255)
+            self.left_layer.frames[0].set_alpha(155)
+            self.right_layer.frames[0].set_alpha(155)
         
         self.help_layer = TextLayer(SMALL_FONT,
                                     'CHANGE SELECTION WITH FLIPPER BUTTONS. START SELECTS.',
@@ -126,56 +128,64 @@ class Menu(Mode):
             y = self.BASE_HEIGHT+self.DIP_HEIGHT*(1-fraction)
             alpha = 255 - int(100*fraction)
             self.middle_layer.move(x, y)
-            self.middle_layer.frames[0].set_alpha(alpha)
+            if self.use_alpha:
+                self.middle_layer.frames[0].set_alpha(alpha)
             
             # move left item
             x = self.left_item_position[0] - (self.middle_item_position[0] - self.left_item_position[0]) * fraction
             y = self.BASE_HEIGHT-self.DIP_HEIGHT*fraction
             alpha = int(155*(1-fraction))
             self.left_layer.move(x, y)
-            self.left_layer.frames[0].set_alpha(alpha)
+            if self.use_alpha:
+                self.left_layer.frames[0].set_alpha(alpha)
             
             # move right item
             x = self.right_item_position[0] - (self.right_item_position[0] - self.middle_item_position[0]) * fraction
             y = self.BASE_HEIGHT+self.DIP_HEIGHT*fraction
             alpha = 155 + int(100*fraction)
             self.right_layer.move(x, y)
-            self.right_layer.frames[0].set_alpha(alpha)
+            if self.use_alpha:
+                self.right_layer.frames[0].set_alpha(alpha)
             
             # move the "new" item in from the right
             x = self.new_right_item_position[0] - (self.right_item_position[0] - self.middle_item_position[0]) * fraction
             y = self.BASE_HEIGHT-self.DIP_HEIGHT*(1-fraction)
             alpha = int(155*fraction)
             self.new_item_layer.move(x, y)
-            self.new_item_layer.frames[0].set_alpha(alpha)
+            if self.use_alpha:
+                self.new_item_layer.frames[0].set_alpha(alpha)
         else:
             # move middle item
             x = self.middle_item_position[0] + (self.right_item_position[0] - self.middle_item_position[0]) * fraction
             y = self.BASE_HEIGHT+self.DIP_HEIGHT*(1-fraction)
             alpha = 255 - int(100*fraction)
             self.middle_layer.move(x, y)
-            self.middle_layer.frames[0].set_alpha(alpha)
+            if self.use_alpha:
+                self.middle_layer.frames[0].set_alpha(alpha)
             
             # move left item
             x = self.left_item_position[0] + (self.middle_item_position[0] - self.left_item_position[0]) * fraction
             y = self.BASE_HEIGHT+self.DIP_HEIGHT*fraction
             alpha = 155 + int(100*fraction)
             self.left_layer.move(x, y)
-            self.left_layer.frames[0].set_alpha(alpha)
+            if self.use_alpha:
+                self.left_layer.frames[0].set_alpha(alpha)
             
             # move right item
             x = self.right_item_position[0] + (self.right_item_position[0] - self.middle_item_position[0]) * fraction
             y = self.BASE_HEIGHT-self.DIP_HEIGHT*fraction
             alpha = int(155*(1-fraction))
             self.right_layer.move(x, y)
-            self.right_layer.frames[0].set_alpha(alpha)
+            if self.use_alpha:
+                self.right_layer.frames[0].set_alpha(alpha)
             
             # move the "new" item in from the left
             x = self.new_left_item_position[0] + (self.right_item_position[0] - self.middle_item_position[0]) * fraction
             y = self.BASE_HEIGHT-self.DIP_HEIGHT*(1-fraction)
             alpha = int(155*fraction)
             self.new_item_layer.move(x, y)
-            self.new_item_layer.frames[0].set_alpha(alpha)
+            if self.use_alpha:
+                self.new_item_layer.frames[0].set_alpha(alpha)
         
         
         if fraction < 1:
