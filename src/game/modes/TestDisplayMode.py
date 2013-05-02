@@ -27,7 +27,7 @@ class TestDisplayMode(Mode):
             self.surface.blit(surf, (switch.x, switch.y))
         
         for driver in self.game.drivers.values():
-            surf = ui.fonts.TEST_DISPLAY_FONT.render(driver.name, True, (255,255,255))
+            surf = ui.fonts.TEST_DISPLAY_FONT.render(driver.name, True, (255,128,128))
             self.surface.blit(surf, (driver.x, driver.y))
         self.dirty = True
     
@@ -37,10 +37,16 @@ class TestDisplayMode(Mode):
             for switch in self.game.switches.values():
                 sw_rect = pygame.Rect(switch.x, switch.y, 50, 10)
                 if sw_rect.collidepoint(event.pos):
-                    self.switch_clicked = switch
-                    self.game.events.inject(SwitchClosedEvent(switch))
+                    if event.button == 1:
+                        self.switch_clicked = switch
+                        self.game.events.inject(SwitchClosedEvent(switch))
+                    else:
+                        if switch.active:
+                            self.game.events.inject(SwitchOpenEvent(switch))
+                        else:
+                            self.game.events.inject(SwitchClosedEvent(switch))
         elif event.TYPE == EventTypes.MOUSE_UP:
-            if self.switch_clicked:
+            if event.button == 1 and self.switch_clicked:
                 self.game.events.inject(SwitchOpenEvent(self.switch_clicked))
                 self.switch_clicked = None
             

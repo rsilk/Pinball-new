@@ -9,6 +9,7 @@ from game.modes.Menu import Menu, MenuItem
 from game.modes.StoryMode import StoryMode
 from game.modes.TakedownMode import TakedownMode
 from game.modes.OverloadMode import OverloadMode
+from game.modes.CodebreakerMode import CodebreakerMode
 
 class Scoop(Mode):
     def __init__(self, game, prio):
@@ -16,18 +17,18 @@ class Scoop(Mode):
         
         self.addHandler('scoop', 'closed', 30, self.ballInScoop)
         
-        self.mode_menu_items = [MenuItem(self.game.datapath('menu_overload.png'), '1'),
-                                MenuItem(self.game.datapath('menu_takedown.png'), '2'),
-                                MenuItem(self.game.datapath('menu_item3.png'), '3'),
-                                MenuItem(self.game.datapath('menu_item4.png'), '4'),
-                                MenuItem(None, 'mode 5'),
-                                MenuItem(None, 'mode 6')]
+        self.mode_menu_items = [MenuItem(self.game.datapath('menu_overload.png'), '1', self.game.color(255,255,255)),
+                                MenuItem(self.game.datapath('menu_takedown.png'), '2', self.game.color(255,255,255)),
+                                MenuItem(self.game.datapath('menu_codebreaker.png'), '3', self.game.color(255,255,255)),
+                                MenuItem(self.game.datapath('menu_item4.png'), '4', self.game.color(255,255,255)),
+                                MenuItem(None, 'mode 5', self.game.color(255,255,255)),
+                                MenuItem(None, 'mode 6', self.game.color(255,255,255))]
         
         self.mode_lights = ['ring1', 'ring2', 'ring3', 'ring4', 'ring5', 'ring6']
         
         self.modes = [OverloadMode(game, 500, self),
                       TakedownMode(game, 500, self),
-                      None,
+                      CodebreakerMode(game, 500, self),
                       None,
                       None,
                       None]

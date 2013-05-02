@@ -26,28 +26,32 @@ class CodebreakerMode(StoryMode):
         self.lights = ['leftorbit', 'pop1', 'pop2', 'pop3', 'rightorbit']
         self.switches = ['orbitL', 'standup1', 'standup2', 'standup3', 'orbitR']
         
+        self.level = 0
         self.letter_scramble_delay = 50
         
         # password is a random one of these each time the mode starts
         self.words = ['hunts', 'brain', 'safer']
-        
-        
+    
     def start(self):
+        self.level = 0
+        for switch in self.switches:
+            self.addHandler(switch, 'closed', 0, self.switchHit)
+        
+        self.layer = TextLayer(ui.fonts.TITLE_FONT,
+                               '???', 
+                               self.game.color(255,255,255), align='center')
+        self.layer.move(1024/2, 50)
+        self.layer.opaque = True
+        
+        self.startLevel()
+        
+    def startLevel(self):
         self.letters_found = [False] * len(self.switches)
         self.password = random.choice(self.words)
         
         for light in self.lights:
             self.game.lights[light].blink(500, self.game.color(255,0,0))
         
-        for switch in self.switches:
-            self.addHandler(switch, 'closed', 0, self.switchHit)
- 
-        self.layer = TextLayer(ui.fonts.TITLE_FONT,
-                               '???', 
-                               self.game.color(255,255,255), align='center')
-        self.layer.move(1024/2, 50)
-        self.layer.opaque = True
-            
         self.delay('scramble', 0.1, self.scramble)
         self.delay('defeat', 60, self.defeat)
     
@@ -64,7 +68,7 @@ class CodebreakerMode(StoryMode):
             if found:
                 letters.append(self.password[i])
             else:
-                letters.append(random.choice(string.ascii_letters))
+                letters.append(random.choice(string.ascii_letters+string.digits))
         self.layer.setText(''.join(letters))
         
         if all(self.letters_found):

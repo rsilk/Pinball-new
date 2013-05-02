@@ -9,9 +9,20 @@ from ui.fonts import *
 from ui.layers import *
 
 class MenuItem:
-    def __init__(self, image_path, text):
+    def __init__(self, image_path, text, text_color):
         self.image_path = image_path
         self.text = text
+        self.text_color = text_color
+    
+    def getLayer(self):
+        # use the image if we have one
+        if self.image_path:
+            return ImageLayer(self.image_path)
+        
+        # else make a surface using the text
+        return TextLayer(SMALL_FONT,
+                         self.text,
+                         self.text_color, 'center')
 
 class Menu(Mode):
     
@@ -53,14 +64,7 @@ class Menu(Mode):
         self.addHandler('start', 'closed', 0, self.select)
     
     def _makeLayerForIndex(self, index):
-        # use the image if we have one
-        if self.items[index].image_path:
-            return ImageLayer(self.items[index].image_path)
-        
-        # else make a surface using the text
-        return TextLayer(SMALL_FONT,
-                         self.items[index].text,
-                         self.game.color(255,255,255), 'center')
+        return self.items[index].getLayer()
     
     def _rebuild(self):
         if self.change_callback:
