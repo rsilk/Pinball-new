@@ -8,6 +8,7 @@ from game.modes.Menu import Menu, MenuItem
 
 from game.modes.StoryMode import StoryMode
 from game.modes.TakedownMode import TakedownMode
+from game.modes.CodebreakerMode import CodebreakerMode
 
 class Scoop(Mode):
     def __init__(self, game, prio):
@@ -24,7 +25,7 @@ class Scoop(Mode):
         
         self.mode_lights = ['ring1', 'ring2', 'ring3', 'ring4', 'ring5', 'ring6']
         
-        self.modes = [TakedownMode(game, 500, self),
+        self.modes = [CodebreakerMode(game, 500, self),
                       None,
                       None,
                       None,
