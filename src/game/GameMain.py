@@ -23,6 +23,8 @@ from game.modes.BallDrainedMode import BallDrainedMode
 from game.modes.Trough import Trough
 from game.modes.Menu import Menu, MenuItem
 from game.modes.Scoop import Scoop
+from game.modes.BallLockedMode import BallLockedMode
+from game.modes.MultiballMode import MultiballMode
 
 from game.ColorManager import ColorManager
 from game.Player import Player
@@ -185,4 +187,7 @@ class GameMain:
         self.modes.append(BallDrainedMode(self, 100, self.player().bonuses)) # this will eventually call endBall
     
     def ballLocked(self):
-        pass
+        if self.trough.balls_in_lock < 3:
+            self.modes.add(BallLockedMode(self, 100, self.trough.balls_in_lock))
+        else:
+            self.modes.add(MultiballMode(self, 10, self))

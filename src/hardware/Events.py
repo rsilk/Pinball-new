@@ -20,14 +20,16 @@ class QuitEvent:
 class MouseDownEvent:
     TYPE = EventTypes.MOUSE_DOWN
     
-    def __init__(self, pos):
+    def __init__(self, pos, button):
         self.pos = pos
+        self.button = button
 
 class MouseUpEvent:
     TYPE = EventTypes.MOUSE_UP
     
-    def __init__(self, pos):
+    def __init__(self, pos, button):
         self.pos = pos
+        self.button = button
 
 class MouseMoveEvent:
     TYPE = EventTypes.MOUSE_MOVE
@@ -64,9 +66,9 @@ class Events:
             if event.type == QUIT:
                 events.append(QuitEvent())
             elif event.type == MOUSEBUTTONDOWN:
-                events.append(MouseDownEvent(event.pos))
+                events.append(MouseDownEvent(event.pos, event.button))
             elif event.type == MOUSEBUTTONUP:
-                events.append(MouseUpEvent(event.pos))
+                events.append(MouseUpEvent(event.pos, event.button))
             elif event.type == MOUSEMOTION:
                 events.append(MouseMoveEvent(event.pos))
             elif event.type == KEYDOWN:

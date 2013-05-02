@@ -45,6 +45,7 @@ class TestDisplayMode(Mode):
                             self.game.events.inject(SwitchOpenEvent(switch))
                         else:
                             self.game.events.inject(SwitchClosedEvent(switch))
+
         elif event.TYPE == EventTypes.MOUSE_UP:
             if event.button == 1 and self.switch_clicked:
                 self.game.events.inject(SwitchOpenEvent(self.switch_clicked))
