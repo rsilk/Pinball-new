@@ -122,9 +122,20 @@ LIGHTS = [
     Light('lane2', 695, 183, 5, 5, 5, 0, 1, 2),
     Light('lane3', 695, 217, 5, 5, 5, 0, 1, 2),
     Light('scoop', 483, 157, 5, 5, 5, 0, 1, 2),
+    Light('jackpot', 459, 162, 5, 5, 5, 0, 1, 2),
     Light('lock', 544, 246, 5, 5, 5, 0, 1, 2),
+    Light('extraball', 512, 242, 5, 5, 5, 0, 1, 2),
     Light('leftorbit', 413, 53, 5, 5, 5, 0, 1, 2),
     Light('rightorbit', 471, 309, 5, 5, 5, 0, 1, 2),
+    Light('leftramp', 475, 84, 5, 5, 5, 0, 1, 2),
+    Light('rightramp', 452, 266, 5, 5, 5, 0, 1, 2),
+    Light('besidescoop', 498, 119, 5, 5, 5, 0, 1, 2),
+    
+    # standups
+    Light('standup1', 445, 71, 5, 5, 5, 0, 1, 2),
+    Light('standup2', 495, 176, 5, 5, 5, 0, 1, 2),
+    Light('standup3', 490, 213, 5, 5, 5, 0, 1, 2),
+    Light('standup4', 482, 103, 5, 5, 5, 0, 1, 2),
     
     # mode ring
     Light('ring1', 412, 131, 5, 5, 5, 0, 1, 2),
@@ -133,4 +144,5 @@ LIGHTS = [
     Light('ring4', 320, 183, 5, 5, 5, 0, 1, 2),
     Light('ring5', 320, 131, 5, 5, 5, 0, 1, 2),
     Light('ring6', 365, 104, 5, 5, 5, 0, 1, 2),
+    Light('ringmiddle', 365, 158, 5, 5, 5, 0, 1, 2),
     ]
