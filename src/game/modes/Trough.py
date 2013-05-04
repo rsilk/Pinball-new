@@ -14,6 +14,7 @@ class Trough(Mode):
         self.balls = 3
         self.balls_in_play = 0
         self.balls_in_lock = 0
+        self.balls_in_trough = self.balls
         
         self.trough_switches = ['trough1', 'trough2', 'trough3']
         self.lock_switches = ['lock1', 'lock2', 'lock3']
@@ -31,7 +32,7 @@ class Trough(Mode):
         self.updateDebugInfo()
     
     def updateDebugInfo(self):
-        text = 'T:%s L:%s P:%s' % (self.balls-self.balls_in_play, self.balls_in_lock, self.balls_in_play)
+        text = 'T:%s L:%s P:%s' % (self.balls_in_trough, self.balls_in_lock, self.balls_in_play)
         self.layer = TextLayer(ui.fonts.SMALL_FONT, text,
                                self.game.color(255,255,255), 'center')
         self.layer.move(1024/2, 5)
@@ -40,6 +41,7 @@ class Trough(Mode):
         # always want to kick a ball from the outhole into the trough
         self.game.drivers['outhole'].pulse(30)
         self.balls_in_play -= 1
+        self.balls_in_trough += 1
         self.game.ballDrained()
         self.updateDebugInfo()
     
@@ -48,6 +50,7 @@ class Trough(Mode):
         if True: #self.game.switches['trough1'].active:
             self.game.drivers['trough'].pulse(30)
             self.balls_in_play += 1
+            self.balls_in_trough -= 1
         
         # else ??
         self.updateDebugInfo()
@@ -56,6 +59,7 @@ class Trough(Mode):
         if True: #self.game.switches['lock1'].active:
             self.game.drivers['lock'].pulse(30)
             self.balls_in_lock -= 1
+            self.balls_in_play += 1
         self.updateDebugInfo()
     
     def handleTroughSwitch(self, switch):
@@ -66,10 +70,10 @@ class Trough(Mode):
         self.delay('check lock', 0.2, self.updateLockStatus)
     
     def updateTroughStatus(self):
-        balls_in_trough = 0
+        self.balls_in_trough = 0
         for switch_name in self.trough_switches:
             if self.game.switches[switch_name].active:
-                balls_in_trough += 1
+                self.balls_in_trough += 1
         self.updateDebugInfo()
     
     def updateLockStatus(self):
@@ -81,5 +85,6 @@ class Trough(Mode):
         print "%s in lock" % balls_in_lock
         if balls_in_lock > self.balls_in_lock:
             self.balls_in_lock = balls_in_lock
+            self.balls_in_play = self.balls - self.balls_in_lock - self.balls_in_trough
             self.game.ballLocked()
         self.updateDebugInfo()

@@ -24,7 +24,8 @@ class BallLockedMode(Mode):
                                'center')
         self.layer.move(1024/2, 175)
         self.layer.opaque = True
-        self.delay('wait', 1.5, self.done)
+        self.delay('wait', 2, self.done)
     
     def done(self):
+        self.game.trough.launchBall()
         self.game.modes.remove(self)

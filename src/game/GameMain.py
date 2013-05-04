@@ -176,7 +176,12 @@ class GameMain:
         self.startBall()
     
     def ballDrained(self):
-        # TODO: don't do this if in multiball
+        if self.trough.balls_in_play > 0:
+            # still balls left, must be in multiball
+            if self.trough.balls_in_play == 1:
+                # down to the last ball. end multiball.
+                self.multiball_mode.end()
+            return
         
         for mode in self.modes.modes:
             mode.ballEnded()
@@ -184,10 +189,11 @@ class GameMain:
         for mode in self.basic_modes:
             self.modes.remove(mode)
         
-        self.modes.append(BallDrainedMode(self, 100, self.player().bonuses)) # this will eventually call endBall
+        self.modes.add(BallDrainedMode(self, 100, self.player().bonuses)) # this will eventually call endBall
     
     def ballLocked(self):
         if self.trough.balls_in_lock < 3:
             self.modes.add(BallLockedMode(self, 100, self.trough.balls_in_lock))
         else:
-            self.modes.add(MultiballMode(self, 10, self))
+            self.multiball_mode = MultiballMode(self, 10) 
+            self.modes.add(self.multiball_mode)
