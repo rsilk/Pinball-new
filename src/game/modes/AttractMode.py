@@ -7,6 +7,7 @@ import time
 from ui.fonts import *
 from ui.layers import *
 from game.modes.Mode import Mode
+from game.lightshows import *
 
 class AttractMode(Mode):
     
@@ -35,6 +36,12 @@ class AttractMode(Mode):
         
         self.delay('blink', 0.5, self.blinkInsert, True)
         self.addHandler('start', 'closed', 0, self.startPressed)
+        
+        self.lightshow = Searchlight(self.game.lights.values(), 2.0)
+    
+    def frame(self, delta):
+        Mode.frame(self, delta)
+        self.lightshow.frame(delta)
     
     def blinkInsert(self, on):
         # blink the "press start" text every half second

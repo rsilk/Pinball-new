@@ -5,14 +5,14 @@ Created on 2013-04-16
 '''
 from .StoryMode import StoryMode
 
-from ui.layers import GroupedLayer, ImageLayer, TextLayer, AnimatedTextLayer
+from ui.layers import GroupedLayer, TextLayer
 import ui.fonts
 
-class TakedownMode(StoryMode):
+class OverloadMode(StoryMode):
     '''
     classdocs
     '''
-    MODE_NAME = 'Takedown'
+    MODE_NAME = 'Overload'
     MODE_DESC = 'Shoot pop bumpers'
 
     def __init__(self, game, prio, scoop_mode):
@@ -21,7 +21,7 @@ class TakedownMode(StoryMode):
         '''
         StoryMode.__init__(self, game, prio, scoop_mode)
         
-        self.blink_delay_ms = 200
+        self.blink_delay_ms = 100
         self.lights = ['pop1', 'pop2', 'pop3']
         self.switches = ['pop1', 'pop2', 'pop3']
         self.level_colors = [self.game.color(255,0,0), #red
