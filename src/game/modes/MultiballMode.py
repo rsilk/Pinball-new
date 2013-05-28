@@ -65,7 +65,7 @@ class MultiballMode(Mode):
         if all(self.ramps_hit):
             # light jackpot
             self.jackpot_lit = True
-            self.game.lights['multiball'].blink(100, self.game.color(0,0,255))
+            self.game.lights['jackpot'].blink(100, self.game.color(0,0,255))
             self.ramps_hit = [False, False]
     
     def handleStandup(self, switch):
@@ -84,14 +84,17 @@ class MultiballMode(Mode):
         if not self.jackpot_lit:
             self.game.drivers['scoop'].pulse(50)
             return
-        self.game.lights['multiball'].off()
+        self.game.lights['jackpot'].off()
         self.game.player().score += self.jackpot_value
         self.jackpot_value = self.base_jackpot_value
         self.jackpot_lit = False
         
         # make a big fuss about jackpot
         self.game.drivers['scoop'].pulse(50)
+        return True
     
-    def ballDrained(self):
-        if self.game.trough.balls_in_play <= 1:
-            self.game.modes.remove(self)
+    def stopped(self):
+        self.game.lights['jackpot'].off()
+        for light in self.standup_lights:
+            self.game.lights[light].off()
+        

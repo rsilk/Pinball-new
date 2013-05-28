@@ -180,7 +180,7 @@ class GameMain:
             # still balls left, must be in multiball
             if self.trough.balls_in_play == 1:
                 # down to the last ball. end multiball.
-                self.multiball_mode.end()
+                self.modes.remove(self.multiball_mode)
             return
         
         for mode in self.modes.modes:

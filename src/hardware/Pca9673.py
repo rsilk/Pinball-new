@@ -3,7 +3,6 @@ Created on 2013-03-24
 
 @author: ryan
 '''
-#import smbus
 
 # pin states
 ON = 1
@@ -29,7 +28,7 @@ class Pca9673(object):
         self.bus = bus # smbus.bus object
         self.address = address # hex address
         self.default_pin_state = default_pin_state
-        self.last_read_values = 0b1111111111111110
+        self.last_read_values = 0b1111111111111111
         
         self.reset()
 
